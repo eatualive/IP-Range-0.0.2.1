@@ -75,6 +75,22 @@ namespace IP_Range
             return p;
         }
 
+        public TreeViewItem FindTreeViewItemFromObject(ItemContainerGenerator icg, object obj)
+        {
+            TreeViewItem tvi = (TreeViewItem)icg.ContainerFromItem(obj);
+            if (tvi != null)
+                return tvi;
+
+            for (int i = 0; i < icg.Items.Count; i++)
+            {
+                tvi = FindTreeViewItemFromObject(((TreeViewItem)icg.ContainerFromIndex(i)).ItemContainerGenerator, obj);
+                if (tvi != null)
+                    break;
+            }
+
+            return tvi;
+        }
+
         //Move Container
         private void tvContainers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -84,6 +100,9 @@ namespace IP_Range
                 if (parentcollection == null) return;
                 var i = parentcollection.IndexOf(tvContainers.SelectedItem as classContainer);
                 if (i > 0) parentcollection.Move(i, i - 1);
+
+                var tvi = FindTreeViewItemFromObject(((TreeView)sender).ItemContainerGenerator, ((TreeView)sender).SelectedItem);
+                if (tvi != null) tvi.BringIntoView();
             }
             else if (e.SystemKey == Key.Down && Keyboard.Modifiers == ModifierKeys.Alt)
             {
@@ -91,6 +110,9 @@ namespace IP_Range
                 if (parentcollection == null) return;
                 var i = parentcollection.IndexOf(tvContainers.SelectedItem as classContainer);
                 if (i < parentcollection.Count - 1 && i >= 0) parentcollection.Move(i, i + 1);
+
+                var tvi = FindTreeViewItemFromObject(((TreeView)sender).ItemContainerGenerator, ((TreeView)sender).SelectedItem);
+                if (tvi != null) tvi.BringIntoView();
             }
         }
 
