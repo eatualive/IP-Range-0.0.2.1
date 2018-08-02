@@ -125,6 +125,24 @@
             </Setter>
         </Style>
 
+        <Style TargetType="{x:Type TreeView}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TreeView">
+                        <Border Name="Border" BorderThickness="0" Background="Transparent">
+                            <ScrollViewer Focusable="False" CanContentScroll="False" Padding="0,0,0,20">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
         <Style TargetType="{x:Type TreeViewItem}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -160,14 +178,15 @@
                                 <Border.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem x:Name="AddSubContainer" Header="ADD..." Click="MenuItem_Click"/>
-                                        <MenuItem x:Name="RemoveContainer" Header="REMOVE" Click="MenuItem_Click"/>
+                                        <MenuItem x:Name="EditContainer" Header="EDIT..." Click="MenuItem_Click"/>
+                                        <MenuItem x:Name="RemoveContainer" Header="REMOVE..." Click="MenuItem_Click"/>
                                     </ContextMenu>
                                 </Border.ContextMenu>
 
                                 <Grid Margin="{Binding Converter={StaticResource lengthConverter}, RelativeSource={RelativeSource TemplatedParent}}"
-                                                      Height="40">
+                                                      Height="30">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="40" />
+                                        <ColumnDefinition Width="30" />
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
 
@@ -547,9 +566,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TreeView x:Name="tvContainers"
-                              Grid.Column="0" BorderThickness="0"
-                              Margin="0"
-                              Background="Transparent"
+                              Grid.Column="0"
                               PreviewKeyDown="tvContainers_PreviewKeyDown"
                               >
                         <TreeView.ItemTemplate>

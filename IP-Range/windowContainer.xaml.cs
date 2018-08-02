@@ -17,7 +17,7 @@ namespace IP_Range
 {
     public partial class windowContainer : Window
     {
-        public windowContainer(Window owner)
+        public windowContainer(Window owner, classContainer container = null)
         {
             this.Owner = owner;
             this.Height = this.Owner.ActualHeight * 0.8;
@@ -26,6 +26,12 @@ namespace IP_Range
             InitializeComponent();
 
             this.WindowStyle = WindowStyle.SingleBorderWindow;
+
+            if (container != null)
+            {
+                Name.Text = container.Name;
+                Name.SelectAll();
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

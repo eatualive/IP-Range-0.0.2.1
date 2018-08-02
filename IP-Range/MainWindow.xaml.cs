@@ -21,7 +21,6 @@ namespace IP_Range
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             tvContainers.ItemsSource = Containers;
-            b
         }
 
 
@@ -31,6 +30,7 @@ namespace IP_Range
         {
             var mi = sender as MenuItem;
             windowContainer wc = new windowContainer(this);
+            classContainer container = tvContainers.SelectedItem as classContainer;
 
             switch (mi.Name)
             {
@@ -46,14 +46,28 @@ namespace IP_Range
                     wc.ShowDialog();
                     if (wc.DialogResult == true)
                     {
-                        classContainer container = tvContainers.SelectedItem as classContainer;
                         container.Children.Add(new classContainer(wc.Name.Text, true));
                         container.IsExpanded = true;
                     }
                     break;
 
                 case ("RemoveContainer"):
+                    var result = MessageBox.Show("Are you really wont to remove container?", "", MessageBoxButton.OKCancel);
+                    if (result == MessageBoxResult.OK)
+                    {
+                        var parentcollection = FindParentCollectionForContainer(Containers, container);
+                        if (parentcollection != null) parentcollection.Remove(container);
+                    }
+                    break;
 
+                case ("EditContainer"):
+
+                    windowContainer wcEdit = new windowContainer(this, container);
+                    wcEdit.ShowDialog();
+                    if (wcEdit.DialogResult == true)
+                    {
+                        container.Name = wcEdit.Name.Text;
+                    }
                     break;
             }
         }
