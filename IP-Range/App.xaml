@@ -1,0 +1,25 @@
+﻿<Application x:Class="IP_Range.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:IP_Range"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <SolidColorBrush x:Key="brushBackground" Color="White"/>
+        <SolidColorBrush x:Key="brushBackgroundWindowContainer" Color="WhiteSmoke"/>
+        <SolidColorBrush x:Key="brushBackgroundTopPanel" Color="#FFEEEEEE"/>
+        <SolidColorBrush x:Key="brushBackgroundThree" Color="White"/>
+        <SolidColorBrush x:Key="brushBackgroundListView" Color="White"/>
+        
+        <SolidColorBrush x:Key="brushForegroundTopPanel" Color="#FF6C6C6C"/>
+        <SolidColorBrush x:Key="brushForeground" Color="Black"/>
+        <SolidColorBrush x:Key="brushForegroundWindowContainer" Color="Black"/>
+        <SolidColorBrush x:Key="brushForegroundWindowContainerButton" Color="White"/>
+        
+        <SolidColorBrush x:Key="brushSelected" Color="#FF1E9FF5"/>
+        <SolidColorBrush x:Key="brushSelectedTreeView" Color="#FFABCCE2"/>
+        <SolidColorBrush x:Key="brushNotSelected" Color="#FFEEEEEE"/>
+        <SolidColorBrush x:Key="brushBorders" Color="#FFC6C6C6"/>
+        <SolidColorBrush x:Key="brushButtonMouseOver" Color="#FF007ACC"/>
+        <SolidColorBrush x:Key="brushButtonMousePressed" Color="#FF005791"/>
+    </Application.Resources>
+</Application>

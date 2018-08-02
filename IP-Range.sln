@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2015
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IP-Range", "IP-Range\IP-Range.csproj", "{35E86112-239D-446C-8806-AA7E2ED06BE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35E86112-239D-446C-8806-AA7E2ED06BE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35E86112-239D-446C-8806-AA7E2ED06BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35E86112-239D-446C-8806-AA7E2ED06BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35E86112-239D-446C-8806-AA7E2ED06BE6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9541BAC1-C5A3-479B-A82D-41D78918E3DA}
+	EndGlobalSection
+EndGlobal
