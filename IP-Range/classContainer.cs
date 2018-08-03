@@ -35,10 +35,6 @@ namespace IP_Range
             }
         }
 
-
-        public ObservableCollection<classContainer> Children { get; set; } = new ObservableCollection<classContainer>();
-        public ObservableCollection<classHost> Hosts { get; set; } = new ObservableCollection<classHost>();
-
         private bool _isexpanded;
         public bool IsExpanded
         {
@@ -49,6 +45,10 @@ namespace IP_Range
                 OnPropertyChanged("IsExpanded");
             }
         }
+        
+        public ObservableCollection<classContainer> Children { get; set; } = new ObservableCollection<classContainer>();
+        public ObservableCollection<classHost> Hosts { get; set; } = new ObservableCollection<classHost>();
+
 
         public classContainer(string name, bool isexpanded = false)
         {
@@ -58,7 +58,7 @@ namespace IP_Range
 
         public classContainer()
         {
-            IsExpanded = false;
+            IsExpanded = true;
         }
     }
 }

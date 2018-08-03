@@ -23,9 +23,7 @@ namespace IP_Range
             tvContainers.ItemsSource = Containers;
         }
 
-
-
-        //MenuItem events
+        //MenuItem Events
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             var mi = sender as MenuItem;
@@ -71,41 +69,7 @@ namespace IP_Range
                     break;
             }
         }
-
-
-        public ObservableCollection<classContainer> FindParentCollectionForContainer(ObservableCollection<classContainer> containers, classContainer container)
-        {
-            ObservableCollection<classContainer> p = null;
-            foreach (var c in containers)
-            {
-                if (c == container)
-                    return containers;
-                else
-                {
-                    p = FindParentCollectionForContainer(c.Children, container);
-                    if (p != null)
-                        break;
-                }
-            }
-            return p;
-        }
-
-        public TreeViewItem FindTreeViewItemFromObject(ItemContainerGenerator icg, object obj)
-        {
-            TreeViewItem tvi = (TreeViewItem)icg.ContainerFromItem(obj);
-            if (tvi != null)
-                return tvi;
-
-            for (int i = 0; i < icg.Items.Count; i++)
-            {
-                tvi = FindTreeViewItemFromObject(((TreeViewItem)icg.ContainerFromIndex(i)).ItemContainerGenerator, obj);
-                if (tvi != null)
-                    break;
-            }
-
-            return tvi;
-        }
-
+        
         //Move Container
         private void tvContainers_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -131,14 +95,25 @@ namespace IP_Range
             }
         }
 
-        //Select TreeViewItem by RightMouse_Click
-        private void Bd_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //Find Collection<classContainer> From classContainer
+        public ObservableCollection<classContainer> FindParentCollectionForContainer(ObservableCollection<classContainer> containers, classContainer container)
         {
-            var brd = sender as Border;
-            TreeViewItem tvi = FindVisualParent(brd) as TreeViewItem;
-            tvi.IsSelected = true;
+            ObservableCollection<classContainer> p = null;
+            foreach (var c in containers)
+            {
+                if (c == container)
+                    return containers;
+                else
+                {
+                    p = FindParentCollectionForContainer(c.Children, container);
+                    if (p != null)
+                        break;
+                }
+            }
+            return p;
         }
 
+        //Find TreeViewItem From Border
         private object FindVisualParent(DependencyObject child)
         {
             object parent = VisualTreeHelper.GetParent(child);
@@ -154,7 +129,99 @@ namespace IP_Range
                 return null;
         }
 
-        // Window management
+        //Find TreeViewItem From classContainer
+        public TreeViewItem FindTreeViewItemFromObject(ItemContainerGenerator icg, object obj)
+        {
+            TreeViewItem tvi = (TreeViewItem)icg.ContainerFromItem(obj);
+            if (tvi != null)
+                return tvi;
+
+            for (int i = 0; i < icg.Items.Count; i++)
+            {
+                tvi = FindTreeViewItemFromObject(((TreeViewItem)icg.ContainerFromIndex(i)).ItemContainerGenerator, obj);
+                if (tvi != null)
+                    break;
+            }
+
+            return tvi;
+        }
+
+        //Select TreeViewItem by RightMouse_Click
+        private void Bd_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var brd = sender as Border;
+            TreeViewItem tvi = FindVisualParent(brd) as TreeViewItem;
+            tvi.IsSelected = true;
+        }
+
+        #region Drag and Drop
+
+        Point startmouseposition;
+
+        //Set Start Position For Delta Before Drag
+        private void tvContainers_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            startmouseposition = e.GetPosition(sender as TreeView);
+        }
+
+        private void tvContainers_MouseMove(object sender, MouseEventArgs e)
+        {
+            TreeView tv = sender as TreeView;
+
+            if (e.LeftButton == MouseButtonState.Pressed &&
+                e.GetPosition(sender as TreeView).X < tv.ActualWidth - SystemParameters.VerticalScrollBarWidth &&
+                Math.Abs(e.GetPosition(sender as TreeView).X - startmouseposition.X) < 10 &
+                Math.Abs(e.GetPosition(sender as TreeView).Y - startmouseposition.Y) < 10 &
+                (Math.Abs(e.GetPosition(sender as TreeView).X - startmouseposition.X) > 5 ||
+                Math.Abs(e.GetPosition(sender as TreeView).Y - startmouseposition.Y) > 5))
+            {
+                TreeViewItem tvi = (TreeViewItem)FindVisualParent(e.OriginalSource as DependencyObject);
+
+                if (tvi != null && tvi.DataContext != null)
+                {
+                    DataObject dragData = new DataObject(tvi.DataContext);
+                }
+            }
+        }
+
+        private void tvContainers_DragEnterOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(classContainer)))
+            {
+                TreeViewItem tvidestination = (TreeViewItem)FindVisualParent(e.OriginalSource as DependencyObject);
+                classContainer objdestination = (tvidestination != null && tvidestination.DataContext.GetType() == typeof(classContainer)) ? tvidestination.DataContext as classContainer : null;
+                classContainer objsource = (classContainer)e.Data.GetData(typeof(classContainer));
+
+                e.Effects = DragDropEffects.Move;
+
+                if (objsource == objdestination) e.Effects = DragDropEffects.None;
+                else if (objsource != null & objdestination != null)
+                {
+                    ObservableCollection<classContainer> selfparentcollection = FindParentCollectionForContainer(objsource.Children, objdestination);
+                    if (selfparentcollection != null) e.Effects = DragDropEffects.None;
+
+                    ObservableCollection<classContainer> sourceparentcollection = FindParentCollectionForContainer(objsource.Children, objdestination);
+                    if (sourceparentcollection == objdestination.Children) e.Effects = DragDropEffects.None;
+                }
+                else if (objsource != null & objdestination == null)
+                {
+                    ObservableCollection<classContainer> sourceparentcollection = FindParentCollectionForContainer(Containers, objsource);
+                    if (sourceparentcollection == Containers) e.Effects = DragDropEffects.None;
+                }
+            }
+            else e.Effects = DragDropEffects.None;
+
+            e.Handled = true;
+        }
+
+        private void tvContainers_Drop(object sender, DragEventArgs e)
+        {
+
+        }
+
+        #endregion
+
+        #region Window management
 
         //Close window
         private void btnClose_Click(object sender, RoutedEventArgs e)
@@ -179,5 +246,7 @@ namespace IP_Range
         {
             MainGrid.Margin = (this.WindowState != WindowState.Maximized) ? new Thickness(0, 0, 0, 0) : new Thickness(7, 7, 7, 7);
         }
+
+        #endregion
     }
 }

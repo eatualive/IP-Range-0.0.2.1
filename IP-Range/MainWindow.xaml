@@ -568,6 +568,11 @@
                     <TreeView x:Name="tvContainers"
                               Grid.Column="0"
                               PreviewKeyDown="tvContainers_PreviewKeyDown"
+                              PreviewMouseLeftButtonDown="tvContainers_PreviewMouseLeftButtonDown"
+                              DragEnter="tvContainers_DragEnterOver"
+                              DragOver="tvContainers_DragEnterOver"
+                              MouseMove="tvContainers_MouseMove"
+                              Drop="tvContainers_Drop"
                               >
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Children}">
