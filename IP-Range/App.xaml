@@ -14,9 +14,11 @@
         <SolidColorBrush x:Key="brushForeground" Color="Black"/>
         <SolidColorBrush x:Key="brushForegroundWindowContainer" Color="Black"/>
         <SolidColorBrush x:Key="brushForegroundWindowContainerButton" Color="White"/>
+        <SolidColorBrush x:Key="brushForegroundTreeView" Color="#FF6C6C6C"/>
+        <SolidColorBrush x:Key="brushForegroundTreeViewSelected" Color="WhiteSmoke"/>
         
         <SolidColorBrush x:Key="brushSelected" Color="#FF1E9FF5"/>
-        <SolidColorBrush x:Key="brushSelectedTreeView" Color="LightGreen"/>
+        <SolidColorBrush x:Key="brushSelectedTreeView" Color="#FF378383"/>
         <SolidColorBrush x:Key="brushNotSelected" Color="#FFF3F3F3"/>
         <SolidColorBrush x:Key="brushBorders" Color="#FFC6C6C6"/>
         <SolidColorBrush x:Key="brushButtonMouseOver" Color="#FF007ACC"/>

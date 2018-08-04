@@ -9,7 +9,7 @@ namespace IP_Range
 {
     public class classDragDropHelper
     {
-        public static readonly DependencyProperty IsDragOverProperty = DependencyProperty.RegisterAttached("IsDragOver", typeof(bool), typeof(classDragDropHelper), new PropertyMetadata(default(bool)));
+        public static readonly DependencyProperty IsDragOverProperty = DependencyProperty.RegisterAttached("IsDragOver", typeof(bool), typeof(classDragDropHelper), new PropertyMetadata(false));
 
         public static void SetIsDragOver(DependencyObject element, bool value)
         {

@@ -230,7 +230,54 @@ namespace IP_Range
 
         private void tvContainers_Drop(object sender, DragEventArgs e)
         {
+            if (e.Data.GetDataPresent(typeof(classContainer)))
+            {
+                TreeViewItem tvidestination = (TreeViewItem)FindVisualParent(e.OriginalSource as DependencyObject);
+                classContainer objdestination = (tvidestination != null && tvidestination.DataContext.GetType() == typeof(classContainer)) ? tvidestination.DataContext as classContainer : null;
+                classContainer objsource = (classContainer)e.Data.GetData(typeof(classContainer));
+                TreeViewItem tvisource = (TreeViewItem)((e.Source as TreeView).ItemContainerGenerator.ContainerFromItem(objsource));
 
+                if (objsource == objdestination) return;
+
+                else if (objsource != null & objdestination != null)
+                {
+                    ObservableCollection<classContainer> selfparentcollection = FindParentCollectionForContainer(objsource.Children, objdestination);
+
+                    if (selfparentcollection != null) return;
+
+                    ObservableCollection<classContainer> sourceparentcollection = FindParentCollectionForContainer(Containers, objsource);
+
+                    if (sourceparentcollection == objdestination.Children) return;
+
+                    objdestination.Children.Add(objsource);
+
+                    if (sourceparentcollection != null)
+                    {
+                        sourceparentcollection.Remove(objsource);
+                        TreeViewItem tvi = FindTreeViewItemFromObject(tvContainers.ItemContainerGenerator, objsource);
+                        tvi.IsSelected = true;
+                    }
+                    else return;
+
+                    tvidestination.IsExpanded = true;
+                }
+                else if (objsource != null & objdestination == null)
+                {
+                    ObservableCollection<classContainer> sourceparentcollection = FindParentCollectionForContainer(Containers, objsource);
+
+                    if (sourceparentcollection == Containers) return;
+
+                    Containers.Add(objsource);
+
+                    if (sourceparentcollection != null)
+                    {
+                        sourceparentcollection.Remove(objsource);
+                        TreeViewItem tvi = FindTreeViewItemFromObject(tvContainers.ItemContainerGenerator, objsource);
+                        tvi.IsSelected = true;
+                    }
+                    else return;
+                }
+            }
         }
 
         #endregion

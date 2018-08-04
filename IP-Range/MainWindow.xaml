@@ -148,7 +148,8 @@
             <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
             <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
             <Setter Property="Padding" Value="1,0,0,0"/>
-            <Setter Property="Foreground" Value="{StaticResource brushForeground}"/>
+            <Setter Property="Foreground" Value="{StaticResource brushForegroundTreeView}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -159,22 +160,21 @@
 
                         <StackPanel>
                             <Border x:Name="Bd"
-                                    BorderBrush="{StaticResource brushBorders}"
-                                    BorderThickness="0,0,0,1"
                                     Padding="{TemplateBinding Padding}"
                                     DragEnter="DropBorder_OnDragEnter"
                                     DragLeave="DropBorder_OnPreviewDragLeave" 
+                                    Drop="DropBorder_OnPreviewDragLeave" 
                                     MouseRightButtonDown="Bd_MouseRightButtonDown"
                                     >
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="Background" Value="Transparent"/>
                                         <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="true">
+                                            <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Background" Value="{StaticResource brushNotSelected}"/>
                                             </Trigger>
-                                            <Trigger Property="local:classDragDropHelper.IsDragOver" Value="true">
-                                                <Setter Property="Background" Value="{StaticResource brushDragDropOver}"/>
+                                            <Trigger Property="local:classDragDropHelper.IsDragOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource brushNotSelected}"/>
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
@@ -230,7 +230,7 @@
                             </MultiTrigger>
                             <Trigger Property="IsSelected" Value="true">
                                 <Setter TargetName="Bd" Property="Background" Value="{StaticResource brushSelectedTreeView}"/>
-                                <Setter Property="Foreground" Value="{StaticResource brushForeground}"/>
+                                <Setter Property="Foreground" Value="{StaticResource brushForegroundTreeViewSelected}"/>
                             </Trigger>
 
                             <MultiTrigger>
