@@ -16,10 +16,12 @@
         <SolidColorBrush x:Key="brushForegroundWindowContainerButton" Color="White"/>
         
         <SolidColorBrush x:Key="brushSelected" Color="#FF1E9FF5"/>
-        <SolidColorBrush x:Key="brushSelectedTreeView" Color="#FFABCCE2"/>
-        <SolidColorBrush x:Key="brushNotSelected" Color="#FFEEEEEE"/>
+        <SolidColorBrush x:Key="brushSelectedTreeView" Color="LightGreen"/>
+        <SolidColorBrush x:Key="brushNotSelected" Color="#FFF3F3F3"/>
         <SolidColorBrush x:Key="brushBorders" Color="#FFC6C6C6"/>
         <SolidColorBrush x:Key="brushButtonMouseOver" Color="#FF007ACC"/>
         <SolidColorBrush x:Key="brushButtonMousePressed" Color="#FF005791"/>
+
+        <SolidColorBrush x:Key="brushDragDropOver" Color="#FF8FE6FF"/>
     </Application.Resources>
 </Application>

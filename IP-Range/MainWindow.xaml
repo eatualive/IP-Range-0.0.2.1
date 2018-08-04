@@ -162,6 +162,8 @@
                                     BorderBrush="{StaticResource brushBorders}"
                                     BorderThickness="0,0,0,1"
                                     Padding="{TemplateBinding Padding}"
+                                    DragEnter="DropBorder_OnDragEnter"
+                                    DragLeave="DropBorder_OnPreviewDragLeave" 
                                     MouseRightButtonDown="Bd_MouseRightButtonDown"
                                     >
                                 <Border.Style>
@@ -170,6 +172,9 @@
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="true">
                                                 <Setter Property="Background" Value="{StaticResource brushNotSelected}"/>
+                                            </Trigger>
+                                            <Trigger Property="local:classDragDropHelper.IsDragOver" Value="true">
+                                                <Setter Property="Background" Value="{StaticResource brushDragDropOver}"/>
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
@@ -184,7 +189,7 @@
                                 </Border.ContextMenu>
 
                                 <Grid Margin="{Binding Converter={StaticResource lengthConverter}, RelativeSource={RelativeSource TemplatedParent}}"
-                                                      Height="30">
+                                      Height="30">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="30" />
                                         <ColumnDefinition/>
@@ -573,6 +578,7 @@
                               DragOver="tvContainers_DragEnterOver"
                               MouseMove="tvContainers_MouseMove"
                               Drop="tvContainers_Drop"
+                              AllowDrop="True"
                               >
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Children}">

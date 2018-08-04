@@ -158,6 +158,16 @@ namespace IP_Range
 
         Point startmouseposition;
 
+        //Events for border highlight
+        private void DropBorder_OnDragEnter(object sender, DragEventArgs e)
+        {
+            classDragDropHelper.SetIsDragOver((DependencyObject)sender, true);
+        }
+        private void DropBorder_OnPreviewDragLeave(object sender, DragEventArgs e)
+        {
+            classDragDropHelper.SetIsDragOver((DependencyObject)sender, false);
+        }
+        
         //Set Start Position For Delta Before Drag
         private void tvContainers_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -179,7 +189,8 @@ namespace IP_Range
 
                 if (tvi != null && tvi.DataContext != null)
                 {
-                    DataObject dragData = new DataObject(tvi.DataContext);
+                    DataObject dragData = new DataObject((classContainer)tvi.DataContext);
+                    DragDrop.DoDragDrop(tv, dragData, DragDropEffects.Move);
                 }
             }
         }
@@ -209,7 +220,10 @@ namespace IP_Range
                     if (sourceparentcollection == Containers) e.Effects = DragDropEffects.None;
                 }
             }
-            else e.Effects = DragDropEffects.None;
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
 
             e.Handled = true;
         }

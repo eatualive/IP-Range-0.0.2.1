@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="classDragDropHelper.cs" />
     <Compile Include="TreeViewItemExtensions.cs" />
     <Compile Include="windowContainer.xaml.cs">
       <DependentUpon>windowContainer.xaml</DependentUpon>
