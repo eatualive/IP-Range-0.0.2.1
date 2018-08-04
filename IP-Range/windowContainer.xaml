@@ -104,7 +104,7 @@
                     >
                 <Button.Style>
                     <Style TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="{StaticResource brushSelected}"/>
+                        <Setter Property="Background" Value="{StaticResource brushBackgroundWindowContainerButton}"/>
                         <Setter Property="Foreground" Value="{StaticResource brushForegroundWindowContainerButton}"/>
                         <Setter Property="Template">
                             <Setter.Value>
@@ -152,7 +152,7 @@
                 </Button.Style>
             </Button>
             <StackPanel Margin="20">
-                <Label Content="Enter Name" FontSize="10" Foreground="{StaticResource brushForegroundTopPanel}"/>
+                <Label Content="Enter Name" FontSize="10" Foreground="{StaticResource brushForegroundWindowContainerDescription}"/>
                 <TextBox x:Name="Name"
                     BorderThickness="0,0,0,1"
                     Background="{StaticResource brushBackgroundWindowContainer}"
@@ -162,7 +162,7 @@
                     Margin="5,0">
                     <TextBox.Style>
                         <Style TargetType="TextBox">
-                            <Setter Property="BorderBrush" Value="{StaticResource brushSelected}"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource brushBackgroundWindowContainerButton}"/>
                             <Style.Triggers>
                                 <Trigger Property="TextBox.Text" Value="">
                                     <Setter Property="BorderBrush" Value="Red"/>

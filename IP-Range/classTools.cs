@@ -18,8 +18,12 @@ namespace IP_Range
                 Name = "Users",
                 Hosts = new ObservableCollection<classHost>
                 {
-                    new classHost{ DNS_Name = "WS-NG-777", IP = "10.200.8.1", Description = "Сороковиков Виталий Юрьевич"},
-                    new classHost{ DNS_Name = "WS-NG-007", IP = "10.200.8.5", Description = "Пятаков Виктор Викторович"}
+                    new classHost{ DNS_Name = "WS-NG-001", IP = "10.200.8.1", Description = "PC-01"},
+                    new classHost{ DNS_Name = "WS-NG-002", IP = "10.200.8.2", Description = "PC-02"},
+                    new classHost{ DNS_Name = "WS-NG-003", IP = "10.200.8.3", Description = "PC-03"},
+                    new classHost{ DNS_Name = "WS-NG-004", IP = "10.200.8.4", Description = "PC-04"},
+                    new classHost{ DNS_Name = "WS-NG-005", IP = "10.200.8.5", Description = "PC-05"},
+                    new classHost{ DNS_Name = "WS-NG-006", IP = "10.200.8.6", Description = "PC-06"}
                 }
             },
             new classContainer
@@ -27,8 +31,8 @@ namespace IP_Range
                 Name = "Servers",
                 Hosts = new ObservableCollection<classHost>
                 {
-                    new classHost{ DNS_Name = "r0-m1-sngp", IP = "10.200.128.70", Description = "Сервер СНГП"},
-                    new classHost{ DNS_Name = "r0-m1-norma1", IP = "10.200.128.73", Description = "Сервер NormaCS"}
+                    new classHost{ DNS_Name = "r0-m1-sngp", IP = "10.200.128.70", Description = "SNGP Server"},
+                    new classHost{ DNS_Name = "r0-m1-norma1", IP = "10.200.128.73", Description = "NormaCS Server"}
                 }
             },
             new classContainer
@@ -39,13 +43,13 @@ namespace IP_Range
                     new classContainer {Name = "RO"},
                     new classContainer
                     {
-                        Name="СНГП",
+                        Name="SNGP",
                         Children = new ObservableCollection<classContainer>
                         {
-                            new classContainer {Name = "Москва"},
-                            new classContainer {Name = "Ставрополь"},
-                            new classContainer {Name = "Ноябрьск"},
-                            new classContainer {Name = "Оренбург"}
+                            new classContainer {Name = "Moscow"},
+                            new classContainer {Name = "Stavropol"},
+                            new classContainer {Name = "Noyabr'sk"},
+                            new classContainer {Name = "Orenburg"}
                         }
                     }
                 }

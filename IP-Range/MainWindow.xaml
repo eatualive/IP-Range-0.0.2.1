@@ -44,7 +44,7 @@
         </Style>
 
         <Style TargetType="{x:Type MenuItem}">
-            <Setter Property="Foreground" Value="{StaticResource brushForegroundTopPanel}"/>
+            <Setter Property="Foreground" Value="{StaticResource brushForegroundPanel}"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="Template">
@@ -61,7 +61,7 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="{DynamicResource brushButtonMouseOver}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource brushForegroundButtonMouseOver}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Foreground" Value="{DynamicResource brushButtonMousePressed}"/>
@@ -171,10 +171,10 @@
                                         <Setter Property="Background" Value="Transparent"/>
                                         <Style.Triggers>
                                             <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Background" Value="{StaticResource brushNotSelected}"/>
+                                                <Setter Property="Background" Value="{StaticResource brushBackgroundTreeViewNotSelected}"/>
                                             </Trigger>
                                             <Trigger Property="local:classDragDropHelper.IsDragOver" Value="True">
-                                                <Setter Property="Background" Value="{StaticResource brushNotSelected}"/>
+                                                <Setter Property="Background" Value="{StaticResource brushBackgroundTreeViewNotSelected}"/>
                                             </Trigger>
                                         </Style.Triggers>
                                     </Style>
@@ -231,6 +231,13 @@
                             <Trigger Property="IsSelected" Value="true">
                                 <Setter TargetName="Bd" Property="Background" Value="{StaticResource brushSelectedTreeView}"/>
                                 <Setter Property="Foreground" Value="{StaticResource brushForegroundTreeViewSelected}"/>
+                                <Setter TargetName="Bd" Property="Panel.ZIndex" Value="100"/>
+                                <Setter Property="Panel.ZIndex" Value="100"/>
+                                <Setter TargetName="Bd" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect BlurRadius="6" ShadowDepth="1"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Trigger>
 
                             <MultiTrigger>
@@ -238,12 +245,13 @@
                                     <Condition Property="IsSelected" Value="true"/>
                                     <Condition Property="IsSelectionActive" Value="false"/>
                                 </MultiTrigger.Conditions>
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource brushNotSelected}"/>
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource brushBackgroundTreeViewNotSelected}"/>
                                 <Setter Property="Foreground" Value="{StaticResource brushForeground}"/>
                             </MultiTrigger>
-                            <Trigger Property="IsEnabled" Value="false">
+                            
+                            <!--<Trigger Property="IsEnabled" Value="false">
                                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                            </Trigger>
+                            </Trigger>-->
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -256,7 +264,7 @@
 
             <Grid x:Name="TopPanel"
                       DockPanel.Dock="Top"
-                      Background="{StaticResource brushBackgroundTopPanel}" Panel.ZIndex="1">
+                      Background="{StaticResource brushBackgroundPanel}" Panel.ZIndex="1">
                 <Grid.Effect>
                     <DropShadowEffect Opacity="1" ShadowDepth="1" BlurRadius="6"/>
                 </Grid.Effect>
@@ -268,7 +276,7 @@
                 <Grid.Resources>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="Foreground" Value="{StaticResource brushForegroundTopPanel}"/>
+                        <Setter Property="Foreground" Value="{StaticResource brushForegroundPanel}"/>
                         <Setter Property="FontWeight" Value="Bold"/>
                         <Setter Property="BorderThickness" Value="0"/>
                         <Setter Property="Template">
@@ -285,10 +293,10 @@
                         </Setter>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="{StaticResource brushButtonMouseOver}"/>
+                                <Setter Property="Foreground" Value="{StaticResource brushForegroundButtonMouseOver}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Foreground" Value="{StaticResource brushButtonMousePressed}"/>
+                                <Setter Property="Foreground" Value="{StaticResource brushForegroundButtonMousePressed}"/>
 
                                 <Trigger.EnterActions>
                                     <BeginStoryboard>
@@ -339,7 +347,7 @@
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Foreground" Value="{StaticResource brushForegroundTopPanel}"/>
+                                <Setter Property="Foreground" Value="{StaticResource brushForegroundPanel}"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type Button}">
@@ -372,7 +380,7 @@
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Foreground" Value="{StaticResource brushForegroundTopPanel}"/>
+                                <Setter Property="Foreground" Value="{StaticResource brushForegroundPanel}"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type Button}">
@@ -404,7 +412,7 @@
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Foreground" Value="{StaticResource brushForegroundTopPanel}"/>
+                                <Setter Property="Foreground" Value="{StaticResource brushForegroundPanel}"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type Button}">
@@ -461,8 +469,8 @@
                                                                 Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}, UpdateSourceTrigger=PropertyChanged}"
                                                                 VerticalContentAlignment="Center"
                                                                 BorderThickness="0"
-                                                                Background="{StaticResource brushBackgroundTopPanel}"
-                                                                Foreground="{StaticResource brushSelected}"
+                                                                Background="{StaticResource brushBackgroundPanel}"
+                                                                Foreground="{StaticResource brushSelectedPanel}"
                                                                 FontWeight="Bold"
                                                                 />
                                                     <TextBlock x:Name="UserMessage"
@@ -471,12 +479,12 @@
                                                                     Text="SEARCH..."
                                                                     IsHitTestVisible="False"
                                                                     FontWeight="Bold"
-                                                                    Foreground="{StaticResource brushForegroundTopPanel}"
+                                                                    Foreground="{StaticResource brushForegroundPanel}"
                                                                     Visibility="Hidden" TextAlignment="Center"
                                                                        />
                                                     <Border x:Name="Brd"
                                                                 BorderThickness="0,0,0,1"
-                                                                BorderBrush="{StaticResource brushSelected}"
+                                                                BorderBrush="{StaticResource brushSelectedPanel}"
                                                                 Margin="0,0,0,10"
                                                                 />
                                                 </Grid>
@@ -518,7 +526,7 @@
                                                     </MultiTrigger>
 
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="UserMessage" Property="Foreground" Value="{StaticResource brushButtonMouseOver}"/>
+                                                        <Setter TargetName="UserMessage" Property="Foreground" Value="{StaticResource brushForegroundButtonMousePressed}"/>
                                                     </Trigger>
                                                 </ControlTemplate.Triggers>
                                             </ControlTemplate>
@@ -615,10 +623,58 @@
                                 <MenuItem Header="PING ALL"/>
                             </ContextMenu>
                         </ListView.ContextMenu>
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="{StaticResource brushForegroundListView}"/>
+                                <Setter Property="Margin" Value="0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                            <Border BorderThickness="0,0,0,0"
+                                                    BorderBrush="{StaticResource brushBorders}"
+                                                    Background="{TemplateBinding Background}"
+                                                    Height="30">
+                                                <GridViewRowPresenter/>
+                                            </Border>
+                                            
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource brushBackgroundListViewNotSelected}"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource brushForegroundListViewNotSelected}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="{StaticResource brushBackgroundListViewSelected}"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource brushForegroundListViewSelected}"/>
+                                                    <Setter Property="Panel.ZIndex" Value="1"/>
+                                                    <Setter Property="Effect">
+                                                        <Setter.Value>
+                                                            <DropShadowEffect BlurRadius="6" ShadowDepth="1"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                                
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsSelected" Value="true"/>
+                                                        <Condition Property="IsFocused" Value="false"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter Property="Background" Value="{StaticResource brushBackgroundListViewNotSelected}"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource brushForegroundListViewNotSelected}"/>
+                                                </MultiTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding IP}"          Header="IP" Width="150"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding DNS_Name}"    Header="DNS Name" Width="150"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding PING}"        Header="PING"        Width="50"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding IP}"          Header="IP"          Width="150"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding DNS_Name}"    Header="DNS Name"    Width="150"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Description" Width="300"/>
                             </GridView>
                         </ListView.View>

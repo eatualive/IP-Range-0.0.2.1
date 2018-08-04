@@ -27,46 +27,54 @@ namespace IP_Range
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             var mi = sender as MenuItem;
-            windowContainer wc = new windowContainer(this);
-            classContainer container = tvContainers.SelectedItem as classContainer;
 
-            switch (mi.Name)
+            if (mi.Name == "AddContainer")
             {
-                case ("AddContainer"):
-                    wc.ShowDialog();
-                    if (wc.DialogResult == true)
-                    {
-                        Containers.Add(new classContainer(wc.Name.Text, true));
-                    }
-                    break;
+                windowContainer wc = new windowContainer(this);
+                wc.ShowDialog();
+                if (wc.DialogResult == true)
+                {
+                    classContainer container = new classContainer(wc.Name.Text, true);
+                    Containers.Add(container);
 
-                case ("AddSubContainer"):
-                    wc.ShowDialog();
-                    if (wc.DialogResult == true)
-                    {
-                        container.Children.Add(new classContainer(wc.Name.Text, true));
-                        container.IsExpanded = true;
-                    }
-                    break;
+                    TreeViewItem tvi = FindTreeViewItemFromObject(tvContainers.ItemContainerGenerator, container);
+                    tvi.IsSelected = true;
+                }
+            }
+            else if (mi.Name == "AddSubContainer")
+            {
+                windowContainer wc = new windowContainer(this);
+                wc.ShowDialog();
+                if (wc.DialogResult == true)
+                {
+                    classContainer container = tvContainers.SelectedItem as classContainer;
+                    classContainer subcontainer = new classContainer(wc.Name.Text, true);
+                    container.Children.Add(subcontainer);
+                    container.IsExpanded = true;
 
-                case ("RemoveContainer"):
-                    var result = MessageBox.Show("Are you really wont to remove container?", "", MessageBoxButton.OKCancel);
-                    if (result == MessageBoxResult.OK)
-                    {
-                        var parentcollection = FindParentCollectionForContainer(Containers, container);
-                        if (parentcollection != null) parentcollection.Remove(container);
-                    }
-                    break;
-
-                case ("EditContainer"):
-
-                    windowContainer wcEdit = new windowContainer(this, container);
-                    wcEdit.ShowDialog();
-                    if (wcEdit.DialogResult == true)
-                    {
-                        container.Name = wcEdit.Name.Text;
-                    }
-                    break;
+                    TreeViewItem tvi = FindTreeViewItemFromObject(tvContainers.ItemContainerGenerator, subcontainer);
+                    tvi.IsSelected = true;
+                }
+            }
+            else if (mi.Name == "EditContainer")
+            {
+                classContainer container = tvContainers.SelectedItem as classContainer;
+                windowContainer wcEdit = new windowContainer(this, container);
+                wcEdit.ShowDialog();
+                if (wcEdit.DialogResult == true)
+                {
+                    container.Name = wcEdit.Name.Text;
+                }
+            }
+            else if (mi.Name == "RemoveContainer")
+            {
+                classContainer container = tvContainers.SelectedItem as classContainer;
+                var result = MessageBox.Show("Are you really wont to remove container?", "", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    var parentcollection = FindParentCollectionForContainer(Containers, container);
+                    if (parentcollection != null) parentcollection.Remove(container);
+                }
             }
         }
         
