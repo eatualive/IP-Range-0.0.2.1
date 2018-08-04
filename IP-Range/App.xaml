@@ -11,6 +11,7 @@
         <SolidColorBrush x:Key="brushBorders" Color="#FFC6C6C6"/>
         <SolidColorBrush x:Key="brushForegroundButtonMouseOver" Color="#FF007ACC"/>
         <SolidColorBrush x:Key="brushForegroundButtonMousePressed" Color="#FF005791"/>
+        <SolidColorBrush x:Key="brushForegroundButtonNotAvalible" Color="#FFF0F0F0"/>
 
         <!--Top and Bottom Panel-->
         <SolidColorBrush x:Key="brushBackgroundPanel" Color="#FFEEEEEE"/>
@@ -22,7 +23,7 @@
         <SolidColorBrush x:Key="brushForegroundTreeView" Color="#FF6C6C6C"/>
         <SolidColorBrush x:Key="brushForegroundTreeViewSelected" Color="WhiteSmoke"/>
         <SolidColorBrush x:Key="brushSelectedTreeView" Color="#FF378383"/>
-        <SolidColorBrush x:Key="brushBackgroundTreeViewNotSelected" Color="#FFE8E8E8"/>
+        <SolidColorBrush x:Key="brushBackgroundTreeViewNotSelected" Color="WhiteSmoke"/>
         
         <!--ListView-->
         <SolidColorBrush x:Key="brushBackgroundListView" Color="White"/>

@@ -58,7 +58,7 @@ namespace IP_Range
 
         public classContainer()
         {
-            IsExpanded = false;
+            IsExpanded = true;
         }
     }
 }

@@ -58,9 +58,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="classDragDropHelper.cs" />
+    <Compile Include="converterTreeViewSelectedItemToBool.cs" />
     <Compile Include="TreeViewItemExtensions.cs" />
     <Compile Include="windowContainer.xaml.cs">
       <DependentUpon>windowContainer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="windowHost.xaml.cs">
+      <DependentUpon>windowHost.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -79,6 +83,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="windowContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windowHost.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -120,6 +128,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\TopPanels\Container.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TopPanels\Host.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

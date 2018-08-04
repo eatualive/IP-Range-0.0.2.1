@@ -76,6 +76,42 @@ namespace IP_Range
                     if (parentcollection != null) parentcollection.Remove(container);
                 }
             }
+            else if (mi.Name == "CreateHost")
+            {
+                if (tvContainers.SelectedItem != null)
+                {
+                    windowHost wh = new windowHost(this);
+                    wh.ShowDialog();
+                    if (wh.DialogResult == true)
+                    {
+                        classHost host = new classHost(wh.IP_address.Text, wh.DNS_Name.Text, wh.Description.Text);
+                        classContainer container = (classContainer)tvContainers.SelectedItem;
+                        container.Hosts.Add(host);
+                    }
+                }
+            }
+            else if (mi.Name == "EditHost")
+            {
+                classHost host = lvHosts.SelectedItem as classHost;
+                windowHost whEdit = new windowHost(this, host);
+                whEdit.ShowDialog();
+                if (whEdit.DialogResult == true)
+                {
+                    host.IP = whEdit.IP_address.Text;
+                    host.DNS_Name = whEdit.DNS_Name.Text;
+                    host.Description = whEdit.Description.Text;
+                }
+            }
+            else if (mi.Name == "RemoveHost")
+            {
+                classHost host = lvHosts.SelectedItem as classHost;
+                var result = MessageBox.Show("Are you really wont to remove container?", "", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    classContainer container = tvContainers.SelectedItem as classContainer;
+                    if (container != null) container.Hosts.Remove(host);
+                }
+            }
         }
         
         //Move Container
@@ -100,6 +136,25 @@ namespace IP_Range
 
                 var tvi = FindTreeViewItemFromObject(((TreeView)sender).ItemContainerGenerator, ((TreeView)sender).SelectedItem);
                 if (tvi != null) tvi.BringIntoView();
+            }
+        }
+
+        //Move Host
+        private void lvHosts_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.SystemKey == Key.Up && Keyboard.Modifiers == ModifierKeys.Alt)
+            {
+                classContainer container = tvContainers.SelectedItem as classContainer;
+                if (container == null) return;
+                var i = container.Hosts.IndexOf(lvHosts.SelectedItem as classHost);
+                if (i > 0) container.Hosts.Move(i, i - 1);
+            }
+            else if (e.SystemKey == Key.Down && Keyboard.Modifiers == ModifierKeys.Alt)
+            {
+                classContainer container = tvContainers.SelectedItem as classContainer;
+                if (container == null) return;
+                var i = container.Hosts.IndexOf(lvHosts.SelectedItem as classHost);
+                if (i < container.Hosts.Count - 1 && i >= 0) container.Hosts.Move(i, i + 1);
             }
         }
 

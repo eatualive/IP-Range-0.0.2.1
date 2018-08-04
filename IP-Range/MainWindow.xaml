@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:IP_Range"
         mc:Ignorable="d"
         Title="IP-Range"
-        Height="650"
-        Width="1200"
+        Height="800"
+        Width="1400"
         MinHeight="440"
         MinWidth="720"
         BorderThickness="1"
@@ -31,8 +31,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ContextMenu}">
-                        <Border
-                                Background="{StaticResource brushBackground}"
+                        <Border Background="{StaticResource brushBackground}"
                                 BorderThickness="1"
                                 BorderBrush="{StaticResource brushBorders}"
                                 >
@@ -54,14 +53,15 @@
                                 Background="Transparent"
                                 MinWidth="150"
                                 Height="40">
-                            <ContentPresenter ContentSource="Header"
-                                              VerticalAlignment="Center"
-                                              Margin="20,0,20,0"/>
+                            <ContentPresenter ContentSource="Header" VerticalAlignment="Center" Margin="20,0,20,0"/>
                         </Border>
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Foreground" Value="{DynamicResource brushForegroundButtonMouseOver}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource brushForegroundButtonNotAvalible}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
                                 <Setter Property="Foreground" Value="{DynamicResource brushButtonMousePressed}"/>
@@ -590,9 +590,6 @@
                               >
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                                <HierarchicalDataTemplate.Resources>
-                                    <local:LeftMarginMultiplierConverter Length="20" x:Key="lengthConverter" />
-                                </HierarchicalDataTemplate.Resources>
 
                                 <StackPanel
                                         Height="30"
@@ -615,12 +612,16 @@
                     <Border Grid.Column="1" BorderBrush="{StaticResource brushBorders}" BorderThickness="1,0"/>
                     <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent"/>
 
-                    <ListView Name="listview" Grid.Column="2" BorderThickness="0" Background="Transparent" ItemsSource="{Binding ElementName=tvContainers, Path=SelectedItem.Hosts}">
+                    <ListView Name="lvHosts" Grid.Column="2" BorderThickness="0" Background="Transparent"
+                              ItemsSource="{Binding ElementName=tvContainers, Path=SelectedItem.Hosts}"
+                              DataContext="{Binding ElementName=tvContainers, Path=SelectedItem}" PreviewKeyDown="lvHosts_PreviewKeyDown">
                         <ListView.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="CREATE..."/>
-                                <MenuItem Header="REFRESH"/>
-                                <MenuItem Header="PING ALL"/>
+                                <ContextMenu.Resources>
+                                    <local:converterTreeViewSelectedItemToBool x:Key="converterTreeViewSelectedItemToBool" />
+                                </ContextMenu.Resources>
+                                <MenuItem x:Name="CreateHost" Header="CREATE..." Click="MenuItem_Click" IsEnabled="{Binding Converter={StaticResource converterTreeViewSelectedItemToBool}}"/>
+                                <MenuItem x:Name="PingAll"    Header="PING ALL"  Click="MenuItem_Click" IsEnabled="{Binding Converter={StaticResource converterTreeViewSelectedItemToBool}}"/>
                             </ContextMenu>
                         </ListView.ContextMenu>
 
@@ -636,6 +637,15 @@
                                                     BorderBrush="{StaticResource brushBorders}"
                                                     Background="{TemplateBinding Background}"
                                                     Height="30">
+                                                <Border.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Name="CreateHost" Header="CREATE..." Click="MenuItem_Click"/>
+                                                        <MenuItem Name="EditHost"   Header="EDIT..."   Click="MenuItem_Click"/>
+                                                        <MenuItem Name="RemoveHost" Header="REMOVE..." Click="MenuItem_Click"/>
+                                                        <MenuItem Name="PingAll"    Header="PING ALL"  Click="MenuItem_Click"/>
+                                                    </ContextMenu>
+                                                </Border.ContextMenu>
+                                                
                                                 <GridViewRowPresenter/>
                                             </Border>
                                             
