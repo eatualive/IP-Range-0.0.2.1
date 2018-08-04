@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Xml.Serialization;
 
 namespace IP_Range
 {
     public static class classTools
     {
-        // List of Containers
+        //List of Containers
         public static ObservableCollection<classContainer> Containers = new ObservableCollection<classContainer>
         {
             new classContainer
@@ -55,5 +58,47 @@ namespace IP_Range
                 }
             }
         };
+
+        //Serialize
+        public static void Serialize(string path)
+        {
+            path = "E:\\Documents\\Programming\\C#\\WPF\\IP-Range\\test.xml";
+
+            XmlSerializer formatter = new XmlSerializer(typeof(ObservableCollection<classContainer>));
+
+            try
+            {
+                using (FileStream fs = new FileStream(path, FileMode.Create))
+                {
+                    formatter.Serialize(fs, Containers);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        //DeSerialize
+        public static void DeSerialize(string path)
+        {
+            path = "E:\\Documents\\Programming\\C#\\WPF\\IP-Range\\test.xml";
+
+            XmlSerializer formatter = new XmlSerializer(typeof(ObservableCollection<classContainer>));
+
+            try
+            {
+                using (FileStream fs = new FileStream(path, FileMode.Open))
+                {
+                    Containers.Clear();
+                    var collection = (ObservableCollection<classContainer>)formatter.Deserialize(fs);
+                    foreach (var item in collection) Containers.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

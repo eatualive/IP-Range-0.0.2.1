@@ -188,22 +188,19 @@ namespace IP_Range
                 else
                     return FindVisualParent(parent as DependencyObject);
             }
-            else
-                return null;
+            else return null;
         }
 
         //Find TreeViewItem From classContainer
         public TreeViewItem FindTreeViewItemFromObject(ItemContainerGenerator icg, object obj)
         {
             TreeViewItem tvi = (TreeViewItem)icg.ContainerFromItem(obj);
-            if (tvi != null)
-                return tvi;
+            if (tvi != null) return tvi;
 
             for (int i = 0; i < icg.Items.Count; i++)
             {
-                tvi = FindTreeViewItemFromObject(((TreeViewItem)icg.ContainerFromIndex(i)).ItemContainerGenerator, obj);
-                if (tvi != null)
-                    break;
+                tvi = FindTreeViewItemFromObject((icg.ContainerFromIndex(i) as TreeViewItem).ItemContainerGenerator, obj);
+                if (tvi != null) break;
             }
 
             return tvi;
@@ -215,6 +212,23 @@ namespace IP_Range
             var brd = sender as Border;
             TreeViewItem tvi = FindVisualParent(brd) as TreeViewItem;
             tvi.IsSelected = true;
+        }
+
+        //ListViewItem DoubleClick Edit Menu
+        private void borderListViewItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                classHost host = lvHosts.SelectedItem as classHost;
+                windowHost whEdit = new windowHost(this, host);
+                whEdit.ShowDialog();
+                if (whEdit.DialogResult == true)
+                {
+                    host.IP = whEdit.IP_address.Text;
+                    host.DNS_Name = whEdit.DNS_Name.Text;
+                    host.Description = whEdit.Description.Text;
+                }
+            }
         }
 
         #region Drag and Drop
@@ -317,8 +331,6 @@ namespace IP_Range
                     if (sourceparentcollection != null)
                     {
                         sourceparentcollection.Remove(objsource);
-                        TreeViewItem tvi = FindTreeViewItemFromObject(tvContainers.ItemContainerGenerator, objsource);
-                        tvi.IsSelected = true;
                     }
                     else return;
 
@@ -335,11 +347,11 @@ namespace IP_Range
                     if (sourceparentcollection != null)
                     {
                         sourceparentcollection.Remove(objsource);
-                        TreeViewItem tvi = FindTreeViewItemFromObject(tvContainers.ItemContainerGenerator, objsource);
-                        tvi.IsSelected = true;
                     }
                     else return;
                 }
+                objsource.IsSelected = true;
+                tvContainers.Focus();
             }
         }
 
@@ -372,5 +384,15 @@ namespace IP_Range
         }
 
         #endregion
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            Serialize("");
+        }
+
+        private void btnOpen_Click(object sender, RoutedEventArgs e)
+        {
+            DeSerialize("");
+        }
     }
 }

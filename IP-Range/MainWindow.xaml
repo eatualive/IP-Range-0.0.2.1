@@ -151,6 +151,7 @@
             <Setter Property="Foreground" Value="{StaticResource brushForegroundTreeView}"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TreeViewItem}">
@@ -453,8 +454,8 @@
                     <StackPanel Orientation="Horizontal">
 
                         <Button x:Name="btnCreate" Content="NEW..." Width="100"/>
-                        <Button x:Name="btnOpen" Content="OPEN..." Width="100"/>
-                        <Button x:Name="btnSave" Content="SAVE" Width="100"/>
+                        <Button x:Name="btnOpen" Content="OPEN..." Width="100" Click="btnOpen_Click"/>
+                        <Button x:Name="btnSave" Content="SAVE" Width="100" Click="btnSave_Click"/>
                         <Button x:Name="btnRefresh" Content="REFRESH" Width="100"/>
 
                         <TextBox>
@@ -612,7 +613,10 @@
                     <Border Grid.Column="1" BorderBrush="{StaticResource brushBorders}" BorderThickness="1,0"/>
                     <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent"/>
 
-                    <ListView Name="lvHosts" Grid.Column="2" BorderThickness="0" Background="Transparent"
+                    <ListView Name="lvHosts"
+                              Grid.Column="2"
+                              BorderThickness="0"
+                              Background="Transparent"
                               ItemsSource="{Binding ElementName=tvContainers, Path=SelectedItem.Hosts}"
                               DataContext="{Binding ElementName=tvContainers, Path=SelectedItem}" PreviewKeyDown="lvHosts_PreviewKeyDown">
                         <ListView.ContextMenu>
@@ -633,10 +637,12 @@
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                            <Border BorderThickness="0,0,0,0"
+                                            <Border Name="borderListViewItem"
+                                                    BorderThickness="0,0,0,0"
                                                     BorderBrush="{StaticResource brushBorders}"
                                                     Background="{TemplateBinding Background}"
-                                                    Height="30">
+                                                    Height="30"
+                                                    MouseLeftButtonDown="borderListViewItem_MouseLeftButtonDown">
                                                 <Border.ContextMenu>
                                                     <ContextMenu>
                                                         <MenuItem Name="CreateHost" Header="CREATE..." Click="MenuItem_Click"/>

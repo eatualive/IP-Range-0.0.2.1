@@ -62,5 +62,10 @@ namespace IP_Range
             DNS_Name = dns_name;
             Description = description;
         }
+
+        public classHost()
+        {
+
+        }
     }
 }

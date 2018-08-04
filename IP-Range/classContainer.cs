@@ -24,6 +24,7 @@ namespace IP_Range
 
         #endregion
 
+
         private string _name;
         public string Name
         {
@@ -45,11 +46,22 @@ namespace IP_Range
                 OnPropertyChanged("IsExpanded");
             }
         }
-        
+
+        private bool _isselected;
+        public bool IsSelected
+        {
+            get { return _isselected; }
+            set
+            {
+                _isselected = value;
+                OnPropertyChanged("IsSelected");
+            }
+        }
+
         public ObservableCollection<classContainer> Children { get; set; } = new ObservableCollection<classContainer>();
         public ObservableCollection<classHost> Hosts { get; set; } = new ObservableCollection<classHost>();
-
-
+        
+        
         public classContainer(string name, bool isexpanded = false)
         {
             Name = name;
