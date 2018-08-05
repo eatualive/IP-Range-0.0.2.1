@@ -105,7 +105,7 @@ namespace IP_Range
             else if (mi.Name == "RemoveHost")
             {
                 classHost host = lvHosts.SelectedItem as classHost;
-                var result = MessageBox.Show("Are you really wont to remove container?", "", MessageBoxButton.OKCancel);
+                var result = MessageBox.Show("Are you really wont to remove host?", "", MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
                     classContainer container = tvContainers.SelectedItem as classContainer;
@@ -113,7 +113,43 @@ namespace IP_Range
                 }
             }
         }
-        
+
+        //Remove Container From KeyDown Delete
+        private void tvContainers_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                classContainer container = tvContainers.SelectedItem as classContainer;
+                if (container == null) return;
+                var result = MessageBox.Show("Are you really wont to remove container?", "", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    var parentcollection = FindParentCollectionForContainer(Containers, container);
+                    if (parentcollection != null) parentcollection.Remove(container);
+                }
+            }
+        }
+
+        //Remove Hosts From KeyDown Delete
+        private void lvHosts_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                List<classHost> hosts = new List<classHost>();
+                if (lvHosts.SelectedItems.Count == 0) return;
+                foreach (classHost item in lvHosts.SelectedItems) hosts.Add(item);
+                var result = MessageBox.Show("Are you really wont to remove host?", "", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    classContainer container = tvContainers.SelectedItem as classContainer;
+                    if (container != null)
+                    {
+                        foreach (classHost item in hosts) container.Hosts.Remove(item);
+                    }
+                }
+            }
+        }
+
         //Move Container
         private void tvContainers_PreviewKeyDown(object sender, KeyEventArgs e)
         {

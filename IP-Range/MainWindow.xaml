@@ -197,12 +197,12 @@
                                     </Grid.ColumnDefinitions>
 
                                     <ToggleButton x:Name="Expander"
-                                                                      IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                      ClickMode="Press"/>
+                                                  IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  ClickMode="Press"/>
                                     <ContentPresenter x:Name="PART_Header"
-                                                                      Grid.Column="1"
-                                                                      ContentSource="Header"
-                                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                                      Grid.Column="1"
+                                                      ContentSource="Header"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
                                 </Grid>
                             </Border>
                             <ItemsPresenter x:Name="ItemsHost"/>
@@ -587,7 +587,7 @@
                               DragOver="tvContainers_DragEnterOver"
                               MouseMove="tvContainers_MouseMove"
                               Drop="tvContainers_Drop"
-                              AllowDrop="True"
+                              AllowDrop="True" KeyDown="tvContainers_KeyDown"
                               >
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Children}">
@@ -618,7 +618,9 @@
                               BorderThickness="0"
                               Background="Transparent"
                               ItemsSource="{Binding ElementName=tvContainers, Path=SelectedItem.Hosts}"
-                              DataContext="{Binding ElementName=tvContainers, Path=SelectedItem}" PreviewKeyDown="lvHosts_PreviewKeyDown">
+                              DataContext="{Binding ElementName=tvContainers, Path=SelectedItem}"
+                              PreviewKeyDown="lvHosts_PreviewKeyDown"
+                              KeyDown="lvHosts_KeyDown">
                         <ListView.ContextMenu>
                             <ContextMenu>
                                 <ContextMenu.Resources>
@@ -709,15 +711,15 @@
                                                         </Setter.Value>
                                                     </Setter>
                                                 </Trigger>
-                                                
-                                                <MultiTrigger>
-                                                    <MultiTrigger.Conditions>
-                                                        <Condition Property="IsSelected" Value="true"/>
-                                                        <Condition Property="IsFocused" Value="false"/>
-                                                    </MultiTrigger.Conditions>
+
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding ElementName=lvHosts, Path=IsSelectionActive}" Value="False"/>
+                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="True"/>
+                                                    </MultiDataTrigger.Conditions>
                                                     <Setter Property="Background" Value="{StaticResource brushBackgroundListViewNotSelected}"/>
                                                     <Setter Property="Foreground" Value="{StaticResource brushForegroundListViewNotSelected}"/>
-                                                </MultiTrigger>
+                                                </MultiDataTrigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </Setter.Value>
