@@ -166,8 +166,8 @@
                             <Border x:Name="Bd"
                                     Padding="{TemplateBinding Padding}"
                                     DragEnter="DropBorder_OnDragEnter"
-                                    DragLeave="DropBorder_OnPreviewDragLeave" 
-                                    Drop="DropBorder_OnPreviewDragLeave" 
+                                    DragLeave="DropBorder_OnDragLeave" 
+                                    Drop="DropBorder_OnDragLeave" 
                                     MouseRightButtonDown="Bd_MouseRightButtonDown"
                                     >
                                 <Border.Style>

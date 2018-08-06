@@ -353,7 +353,7 @@ namespace IP_Range
         {
             classDragDropHelper.SetIsDragOver((DependencyObject)sender, true);
         }
-        private void DropBorder_OnPreviewDragLeave(object sender, DragEventArgs e)
+        private void DropBorder_OnDragLeave(object sender, DragEventArgs e)
         {
             classDragDropHelper.SetIsDragOver((DependencyObject)sender, false);
         }

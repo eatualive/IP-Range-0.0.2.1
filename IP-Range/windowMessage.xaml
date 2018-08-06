@@ -95,7 +95,7 @@
             <StackPanel Name="ButtonContainer"
                     Grid.Row="2"
                     Orientation="Horizontal"
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Center">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Width" Value="100"/>
