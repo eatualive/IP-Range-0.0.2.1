@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using static IP_Range.classTools;
 
 namespace IP_Range
@@ -111,6 +113,21 @@ namespace IP_Range
                     classContainer container = tvContainers.SelectedItem as classContainer;
                     if (container != null) container.Hosts.Remove(host);
                 }
+            }
+        }
+
+        //Add Main Container
+        private void btnAddContainer_Click(object sender, RoutedEventArgs e)
+        {
+            windowContainer wc = new windowContainer(this);
+            wc.ShowDialog();
+            if (wc.DialogResult == true)
+            {
+                classContainer container = new classContainer(wc.Name.Text, true);
+                Containers.Add(container);
+
+                TreeViewItem tvi = FindTreeViewItemFromObject(tvContainers.ItemContainerGenerator, container);
+                tvi.IsSelected = true;
             }
         }
 

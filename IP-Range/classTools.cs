@@ -62,7 +62,7 @@ namespace IP_Range
         //Serialize
         public static void Serialize(string path)
         {
-            path = "E:\\Documents\\Programming\\C#\\WPF\\IP-Range\\test.xml";
+            path = "D:\\Documents\\Programming\\IP-Range\\test.xml";
 
             XmlSerializer formatter = new XmlSerializer(typeof(ObservableCollection<classContainer>));
 
@@ -82,7 +82,7 @@ namespace IP_Range
         //DeSerialize
         public static void DeSerialize(string path)
         {
-            path = "E:\\Documents\\Programming\\C#\\WPF\\IP-Range\\test.xml";
+            path = "D:\\Documents\\Programming\\IP-Range\\test.xml";
 
             XmlSerializer formatter = new XmlSerializer(typeof(ObservableCollection<classContainer>));
 

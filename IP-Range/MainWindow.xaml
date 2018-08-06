@@ -25,7 +25,7 @@
             </Setter>
         </Style>
     </Window.Style>
-    
+
     <Window.Resources>
         <Style  TargetType="{x:Type ContextMenu}">
             <Setter Property="Template">
@@ -133,7 +133,10 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TreeView">
-                        <Border Name="Border" BorderThickness="0" Background="Transparent">
+                        <Border Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
                             <ScrollViewer Focusable="False" CanContentScroll="False" Padding="0,0,0,20">
                                 <ItemsPresenter />
                             </ScrollViewer>
@@ -142,7 +145,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style TargetType="{x:Type TreeViewItem}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -249,7 +252,7 @@
                                 <Setter TargetName="Bd" Property="Background" Value="{StaticResource brushBackgroundTreeViewNotSelected}"/>
                                 <Setter Property="Foreground" Value="{StaticResource brushForeground}"/>
                             </MultiTrigger>
-                            
+
                             <!--<Trigger Property="IsEnabled" Value="false">
                                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                             </Trigger>-->
@@ -264,8 +267,9 @@
         <DockPanel>
 
             <Grid x:Name="TopPanel"
-                      DockPanel.Dock="Top"
-                      Background="{StaticResource brushBackgroundPanel}" Panel.ZIndex="1">
+                  DockPanel.Dock="Top"
+                  Background="{StaticResource brushBackgroundPanel}"
+                  Panel.ZIndex="1">
                 <Grid.Effect>
                     <DropShadowEffect Opacity="1" ShadowDepth="1" BlurRadius="6"/>
                 </Grid.Effect>
@@ -284,9 +288,9 @@
                             <Setter.Value>
                                 <ControlTemplate TargetType="{x:Type Button}">
                                     <Border Background="{TemplateBinding Background}"
-                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                Width="{TemplateBinding Width}">
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Width="{TemplateBinding Width}">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                 </ControlTemplate>
@@ -542,26 +546,28 @@
 
             </Grid>
 
-            <Border Visibility="Collapsed" x:Name="BottomPanel" DockPanel.Dock="Bottom" Height="30" BorderBrush="{StaticResource brushBorders}" BorderThickness="0,1,0,0"/>
+            <Border Panel.ZIndex="1" Visibility="Collapsed" x:Name="BottomPanel" Background="{StaticResource brushBackgroundPanel}" DockPanel.Dock="Bottom" Height="30" BorderBrush="{StaticResource brushBorders}" BorderThickness="0,1,0,0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="6" ShadowDepth="1" Direction="90"/>
+                </Border.Effect>
+            </Border>
 
             <Grid>
+
                 <Image x:Name="Background"
-                           Stretch="UniformToFill"
-                           Source="Images/backgrounds/background.jpg">
-                    <Image.OpacityMask>
-                        <SolidColorBrush Color="WhiteSmoke" Opacity="0.1"/>
-                    </Image.OpacityMask>
+                       Stretch="UniformToFill"
+                       Source="Images/backgrounds/background.jpg">
                     <Image.Triggers>
                         <EventTrigger RoutedEvent="Loaded">
                             <BeginStoryboard>
                                 <Storyboard>
                                     <ThicknessAnimation
-                                    Storyboard.TargetProperty="Margin"
-                                    From="0,0,0,0"
-                                    To="-100,-100,-100,-100"
-                                    Duration="0:0:20"
-                                    RepeatBehavior="Forever"
-                                    AutoReverse="True">
+                                                        Storyboard.TargetProperty="Margin"
+                                                        From="0,0,0,0"
+                                                        To="-100,-100,-100,-100"
+                                                        Duration="0:0:20"
+                                                        RepeatBehavior="Forever"
+                                                        AutoReverse="True">
                                         <ThicknessAnimation.EasingFunction>
                                             <SineEase EasingMode="EaseInOut"/>
                                         </ThicknessAnimation.EasingFunction>
@@ -571,15 +577,25 @@
                         </EventTrigger>
                     </Image.Triggers>
                 </Image>
+                
+                <Border Margin="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" MinWidth="200"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="3*" MinWidth="200"/>
+                        </Grid.ColumnDefinitions>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" MinWidth="200"/>
-                        <ColumnDefinition Width="5"/>
-                        <ColumnDefinition Width="3*" MinWidth="200"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TreeView x:Name="tvContainers"
+                        <Border BorderThickness="1" BorderBrush="{StaticResource brushBorders}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="8" ShadowDepth="1"/>
+                            </Border.Effect>
+                        </Border>
+                        
+                        <TreeView x:Name="tvContainers"
+                              Background="{StaticResource brushBackgroundTreeView}"
+                              BorderBrush="{StaticResource brushBorders}"
+                              BorderThickness="1"
                               Grid.Column="0"
                               PreviewKeyDown="tvContainers_PreviewKeyDown"
                               PreviewMouseLeftButtonDown="tvContainers_PreviewMouseLeftButtonDown"
@@ -587,156 +603,211 @@
                               DragOver="tvContainers_DragEnterOver"
                               MouseMove="tvContainers_MouseMove"
                               Drop="tvContainers_Drop"
-                              AllowDrop="True" KeyDown="tvContainers_KeyDown"
+                              AllowDrop="True"
+                              KeyDown="tvContainers_KeyDown"
                               >
-                        <TreeView.ItemTemplate>
-                            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
 
-                                <StackPanel
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+
+                                    <StackPanel
                                         Height="30"
                                         Orientation="Horizontal">
 
-                                    <Image SnapsToDevicePixels="True" Height="16" Width="16" Source="Images/Containers/folder_16x16.png"/>
-                                    <TextBlock Text="{Binding Name}" FontSize="12" VerticalAlignment="Center" Margin="5,0"/>
-                                </StackPanel>
+                                        <Image SnapsToDevicePixels="True" Height="16" Width="16" Source="Images/Containers/folder_16x16.png"/>
+                                        <TextBlock Text="{Binding Name}" FontSize="12" VerticalAlignment="Center" Margin="5,0"/>
+                                    </StackPanel>
 
-                            </HierarchicalDataTemplate>
-                        </TreeView.ItemTemplate>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
 
-                        <TreeView.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem x:Name="AddContainer" Header="ADD..." Click="MenuItem_Click"/>
-                            </ContextMenu>
-                        </TreeView.ContextMenu>
-                    </TreeView>
+                            <TreeView.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem x:Name="AddContainer" Header="ADD..." Click="MenuItem_Click"/>
+                                </ContextMenu>
+                            </TreeView.ContextMenu>
+                        </TreeView>
 
-                    <Border Grid.Column="1" BorderBrush="{StaticResource brushBorders}" BorderThickness="1,0"/>
-                    <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent"/>
+                        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Transparent"/>
 
-                    <ListView Name="lvHosts"
-                              Grid.Column="2"
-                              BorderThickness="0"
-                              Background="Transparent"
-                              ItemsSource="{Binding ElementName=tvContainers, Path=SelectedItem.Hosts}"
-                              DataContext="{Binding ElementName=tvContainers, Path=SelectedItem}"
-                              PreviewKeyDown="lvHosts_PreviewKeyDown"
-                              KeyDown="lvHosts_KeyDown">
-                        <ListView.ContextMenu>
-                            <ContextMenu>
-                                <ContextMenu.Resources>
-                                    <local:converterTreeViewSelectedItemToBool x:Key="converterTreeViewSelectedItemToBool" />
-                                </ContextMenu.Resources>
-                                <MenuItem x:Name="CreateHost" Header="CREATE..." Click="MenuItem_Click" IsEnabled="{Binding Converter={StaticResource converterTreeViewSelectedItemToBool}}"/>
-                                <MenuItem x:Name="PingAll"    Header="PING ALL"  Click="MenuItem_Click" IsEnabled="{Binding Converter={StaticResource converterTreeViewSelectedItemToBool}}"/>
-                            </ContextMenu>
-                        </ListView.ContextMenu>
-
-                        <ListView.Resources>
-                            <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <Setter Property="Foreground" Value="{StaticResource brushForegroundListView}"/>
-                                <Setter Property="Visibility" Value="Visible"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
-                                            <Grid>
-                                                <Border Background="Transparent"
-                                                        Width="{TemplateBinding Width}"
-                                                        Height="30"
-                                                        BorderBrush="{StaticResource brushBorders}"
-                                                        BorderThickness="0,0,1,1"
-                                                        Margin="-2,0,-4,0">
+                        <!--<StackPanel Grid.Column="1">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Margin" Value="0,0,0,5"/>
+                                    <Setter Property="Width" Value="22"/>
+                                    <Setter Property="Height" Value="22"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="BorderBrush" Value="{StaticResource brushBorders}"/>
+                                    <Setter Property="Background" Value="{StaticResource brushBackgroundPanel}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource brushForegroundPanel}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border Background="{TemplateBinding Background}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}">
                                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
-                                                <Thumb x:Name="PART_HeaderGripper" HorizontalAlignment="Right">
-                                                    <Thumb.Style>
-                                                        <Style TargetType="{x:Type Thumb}">
-                                                            <Setter Property="Width" Value="10"/>
-                                                            <Setter Property="Margin" Value="0,0,-8,0"/>
-                                                            <Setter Property="Background" Value="Transparent" />
-                                                            <Setter Property="Template">
-                                                                <Setter.Value>
-                                                                    <ControlTemplate TargetType="{x:Type Thumb}">
-                                                                        <Border Background="{TemplateBinding Background}"/>
-                                                                    </ControlTemplate>
-                                                                </Setter.Value>
-                                                            </Setter>
-                                                        </Style>
-                                                    </Thumb.Style>
-                                                </Thumb>
-                                            </Grid>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.Resources>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="{StaticResource brushSelectedPanel}"/>
+                                            <Setter Property="BorderBrush" Value="{StaticResource brushSelectedPanel}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource brushBackground}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Resources>
+                            <Button Name="btnAddContainer" Click="btnAddContainer_Click">
+                                <Path Data="M 0 0 L 5 0 L 5 -5 L 10 -5 L 10 0 L 15 0 L 15 5 L 10 5 L 10 10 L 5 10 L 5 5 L 0 5 Z"
+                                      SnapsToDevicePixels="True"
+                                      StrokeThickness="0"
+                                      Fill="{Binding Foreground, ElementName=btnAddContainer}"
+                                      StrokeMiterLimit="0"
+                                      Stretch="Uniform"
+                                      Width="10"
+                                      Height="10"/>
+                            </Button>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                        </StackPanel>-->
 
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListViewItem}">
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Foreground" Value="{StaticResource brushForegroundListView}"/>
-                                <Setter Property="Margin" Value="0"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                            <Border Name="borderListViewItem"
+                        <Border Grid.Column="2" BorderThickness="1" BorderBrush="{StaticResource brushBorders}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="8" ShadowDepth="1"/>
+                            </Border.Effect>
+                        </Border>
+                        <ListView Name="lvHosts"
+                                  Background="{StaticResource brushBackgroundListView}"
+                                  Grid.Column="2"
+                                  BorderThickness="1"
+                                  BorderBrush="{StaticResource brushBorders}"
+                                  ItemsSource="{Binding ElementName=tvContainers, Path=SelectedItem.Hosts}"
+                                  DataContext="{Binding ElementName=tvContainers, Path=SelectedItem}"
+                                  PreviewKeyDown="lvHosts_PreviewKeyDown"
+                                  KeyDown="lvHosts_KeyDown">
+                            <ListView.ContextMenu>
+                                <ContextMenu>
+                                    <ContextMenu.Resources>
+                                        <local:converterTreeViewSelectedItemToBool x:Key="converterTreeViewSelectedItemToBool" />
+                                    </ContextMenu.Resources>
+                                    <MenuItem x:Name="CreateHost" Header="CREATE..." Click="MenuItem_Click" IsEnabled="{Binding Converter={StaticResource converterTreeViewSelectedItemToBool}}"/>
+                                    <MenuItem x:Name="PingAll"    Header="PING ALL"  Click="MenuItem_Click" IsEnabled="{Binding Converter={StaticResource converterTreeViewSelectedItemToBool}}"/>
+                                </ContextMenu>
+                            </ListView.ContextMenu>
+
+                            <ListView.Resources>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="Foreground" Value="{StaticResource brushForegroundListView}"/>
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                                                <Grid>
+                                                    <Border Width="{TemplateBinding Width}"
+                                                            Height="20"
+                                                            BorderBrush="{StaticResource brushBorders}"
+                                                            BorderThickness="0,0,1,1"
+                                                            Margin="-2,0,-4,0">
+                                                        <Grid Margin="10,0,5,0">
+                                                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                        </Grid>
+                                                    </Border>
+                                                    <Thumb x:Name="PART_HeaderGripper" HorizontalAlignment="Right">
+                                                        <Thumb.Style>
+                                                            <Style TargetType="{x:Type Thumb}">
+                                                                <Setter Property="Width" Value="10"/>
+                                                                <Setter Property="Margin" Value="0,0,-8,0"/>
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type Thumb}">
+                                                                            <Border Background="{TemplateBinding Background}"/>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Thumb.Style>
+                                                    </Thumb>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.Resources>
+
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="{StaticResource brushForegroundListView}"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                                <Border Name="borderListViewItem"
                                                     BorderThickness="0,0,0,0"
                                                     BorderBrush="{StaticResource brushBorders}"
                                                     Background="{TemplateBinding Background}"
                                                     Height="30"
                                                     MouseLeftButtonDown="borderListViewItem_MouseLeftButtonDown">
-                                                <Border.ContextMenu>
-                                                    <ContextMenu>
-                                                        <MenuItem Name="CreateHost" Header="CREATE..." Click="MenuItem_Click"/>
-                                                        <MenuItem Name="EditHost"   Header="EDIT..."   Click="MenuItem_Click"/>
-                                                        <MenuItem Name="RemoveHost" Header="REMOVE..." Click="MenuItem_Click"/>
-                                                        <MenuItem Name="PingAll"    Header="PING ALL"  Click="MenuItem_Click"/>
-                                                    </ContextMenu>
-                                                </Border.ContextMenu>
-                                                
-                                                <GridViewRowPresenter/>
-                                            </Border>
-                                            
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="{StaticResource brushBackgroundListViewNotSelected}"/>
-                                                    <Setter Property="Foreground" Value="{StaticResource brushForegroundListViewNotSelected}"/>
-                                                </Trigger>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="{StaticResource brushBackgroundListViewSelected}"/>
-                                                    <Setter Property="Foreground" Value="{StaticResource brushForegroundListViewSelected}"/>
-                                                    <Setter Property="Panel.ZIndex" Value="1"/>
-                                                    <Setter Property="Effect">
-                                                        <Setter.Value>
-                                                            <DropShadowEffect BlurRadius="6" ShadowDepth="1"/>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Trigger>
+                                                    <Border.ContextMenu>
+                                                        <ContextMenu>
+                                                            <MenuItem Name="CreateHost" Header="CREATE..." Click="MenuItem_Click"/>
+                                                            <MenuItem Name="EditHost"   Header="EDIT..."   Click="MenuItem_Click"/>
+                                                            <MenuItem Name="RemoveHost" Header="REMOVE..." Click="MenuItem_Click"/>
+                                                            <MenuItem Name="PingAll"    Header="PING ALL"  Click="MenuItem_Click"/>
+                                                        </ContextMenu>
+                                                    </Border.ContextMenu>
+                                                    <GridViewRowPresenter Margin="4,0,0,0"/>
+                                                </Border>
 
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding ElementName=lvHosts, Path=IsSelectionActive}" Value="False"/>
-                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="True"/>
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Background" Value="{StaticResource brushBackgroundListViewNotSelected}"/>
-                                                    <Setter Property="Foreground" Value="{StaticResource brushForegroundListViewNotSelected}"/>
-                                                </MultiDataTrigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListView.ItemContainerStyle>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Background" Value="{StaticResource brushBackgroundListViewNotSelected}"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource brushForegroundListViewNotSelected}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Background" Value="{StaticResource brushBackgroundListViewSelected}"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource brushForegroundListViewSelected}"/>
+                                                        <Setter Property="Panel.ZIndex" Value="1"/>
+                                                        <Setter Property="Effect">
+                                                            <Setter.Value>
+                                                                <DropShadowEffect BlurRadius="6" ShadowDepth="1"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
 
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding PING}"        Header="Ping"        Width="50"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding IP}"          Header="Ip"          Width="150"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding DNS_Name}"    Header="DNS Name"    Width="150"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Description" Width="300"/>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </Grid>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding ElementName=lvHosts, Path=IsSelectionActive}" Value="False"/>
+                                                            <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="True"/>
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Background" Value="{StaticResource brushBackgroundListViewNotSelected}"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource brushForegroundListViewNotSelected}"/>
+                                                    </MultiDataTrigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding PING}"        Header="PING"        Width="50"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding IP}"          Header="IP"          Width="150"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding DNS_Name}"    Header="DNS NAME"    Width="150"/>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="DESCRIPTION" Width="300"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </Border>
             </Grid>
         </DockPanel>
     </Grid>
