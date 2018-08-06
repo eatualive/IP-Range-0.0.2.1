@@ -79,7 +79,7 @@ namespace IP_Range
             
             try
             {
-                clRegistryKey.SetValue("DataBase", DatabasePath);
+                clRegistryKey.SetValue("DatabasePath", DatabasePath);
                 clRegistryKey.Close();
             }
             catch (Exception ex)
@@ -89,28 +89,27 @@ namespace IP_Range
         }
 
         //Load settings to registry
-        public static string LoadSettings()
+        public static void LoadSettings()
         {
             string path = @"Software\IP-Range\";
             Microsoft.Win32.RegistryKey clRegistryKey;
-
-            // Если раздела в реестре ЕСТЬ, то открываем для чтения
+            
             if (Microsoft.Win32.Registry.CurrentUser.OpenSubKey(path) != null)
             {
                 clRegistryKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(path, false);
-
-                // Пытаемся прочитать значение
+                
                 try
                 {
-                    return (string)clRegistryKey.GetValue("DataBase");
+                    DatabasePath = (string)clRegistryKey.GetValue("DatabasePath");
+                    if (DatabasePath != null) DeSerialize(DatabasePath);
                 }
                 catch (Exception ex)
                 {
                     windowMessage.Show(ex.Message);
                 }
             }
-            return null;
         }
+
         //Serialize
         public static void Serialize(string path)
         {
@@ -121,6 +120,7 @@ namespace IP_Range
                 {
                     formatter.Serialize(fs, Containers);
                     IsChanged = false;
+                    SaveSettings();
                 }
             }
             catch (Exception ex)
@@ -141,6 +141,7 @@ namespace IP_Range
                     var collection = (ObservableCollection<classContainer>)formatter.Deserialize(fs);
                     foreach (var item in collection) Containers.Add(item);
                     IsChanged = false;
+                    SaveSettings();
                 }
             }
             catch (Exception ex)

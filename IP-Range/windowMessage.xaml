@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IP_Range"
         mc:Ignorable="d"
-        Title="IP RANGE"
+        Title="IP-Range"
         Width="340"
         Height="160"
         WindowStartupLocation="CenterOwner"

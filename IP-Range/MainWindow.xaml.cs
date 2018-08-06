@@ -25,6 +25,7 @@ namespace IP_Range
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             tvContainers.ItemsSource = Containers;
+            LoadSettings();
         }
 
         private void DeleteContainer(classContainer container)
@@ -476,7 +477,17 @@ namespace IP_Range
         //Close window
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            if (IsChanged)
+            {
+                var result = windowMessage.Show("Save Changes?", this, MessageBoxButton.YesNoCancel);
+                if (result == MessageBoxResult.Yes)
+                {
+                    if (DatabasePath != "") Serialize(DatabasePath);
+                    this.Close();
+                }
+                else if (result == MessageBoxResult.No) this.Close();
+            }
+            else this.Close();
         }
 
         //Minimize window
