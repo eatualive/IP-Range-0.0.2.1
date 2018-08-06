@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:IP_Range"
         mc:Ignorable="d"
         Title="IP RANGE"
-        Width="320"
+        Width="340"
         Height="160"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"

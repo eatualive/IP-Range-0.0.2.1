@@ -458,10 +458,10 @@
                         Height="45">
                     <StackPanel Orientation="Horizontal">
 
-                        <Button x:Name="btnCreate" Content="NEW..." Width="100"/>
+                        <Button x:Name="btnNew" Content="NEW..." Width="100" Click="btnNew_Click"/>
                         <Button x:Name="btnOpen" Content="OPEN..." Width="100" Click="btnOpen_Click"/>
                         <Button x:Name="btnSave" Content="SAVE" Width="100" Click="btnSave_Click"/>
-                        <Button x:Name="btnRefresh" Content="REFRESH" Width="100"/>
+                        <Button x:Name="btnSaveAs" Content="SAVE AS..." Width="100" Click="btnSaveAs_Click"/>
 
                         <TextBox>
                             <TextBox.Style>

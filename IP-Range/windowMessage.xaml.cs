@@ -62,10 +62,9 @@ namespace IP_Range
 
         MessageBoxResult Result = MessageBoxResult.None;
 
-        public static MessageBoxResult Show(string title, string message, Window owner = null, MessageBoxButton buttons = MessageBoxButton.OK)
+        public static MessageBoxResult Show(string message, Window owner = null, MessageBoxButton buttons = MessageBoxButton.OK)
         {
             var dialog = new windowMessage();
-            dialog.Header.Content = title;
             dialog.MessageContainer.Text = message;
             dialog.AddButtons(buttons);
             dialog.Owner = owner;

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -25,6 +27,53 @@ namespace IP_Range
             tvContainers.ItemsSource = Containers;
         }
 
+        private void DeleteContainer(classContainer container)
+        {
+            if (container !=null)
+            {
+                var result = windowMessage.Show("Remove the container ''" + container.Name + "''?", this, MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    var parentcollection = FindParentCollectionForContainer(Containers, container);
+                    if (parentcollection != null)
+                    {
+                        parentcollection.Remove(container);
+                        IsChanged = true;
+                    }
+                }
+            }
+        }
+
+        private void DeleteHosts(classHost host = null, List<classHost> hosts= null)
+        {
+            if (host != null)
+            {
+                var result = windowMessage.Show("Remove the host ''" + host.IP + "''?", this, MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    classContainer container = tvContainers.SelectedItem as classContainer;
+                    if (container != null)
+                    {
+                        container.Hosts.Remove(host);
+                        IsChanged = true;
+                    }
+                }
+            }
+            if (hosts != null)
+            {
+                var result = windowMessage.Show("Do you really wont to remove " + hosts.Count + " hosts?", this, MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    classContainer container = tvContainers.SelectedItem as classContainer;
+                    if (container != null)
+                    {
+                        foreach (classHost item in hosts) container.Hosts.Remove(item);
+                        IsChanged = true;
+                    }
+                }
+            }
+        }
+
         //MenuItem Events
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -38,6 +87,7 @@ namespace IP_Range
                 {
                     classContainer container = new classContainer(wc.Name.Text, true);
                     Containers.Add(container);
+                    IsChanged = true;
 
                     TreeViewItem tvi = FindTreeViewItemFromObject(tvContainers.ItemContainerGenerator, container);
                     tvi.IsSelected = true;
@@ -53,6 +103,7 @@ namespace IP_Range
                     classContainer subcontainer = new classContainer(wc.Name.Text, true);
                     container.Children.Add(subcontainer);
                     container.IsExpanded = true;
+                    IsChanged = true;
 
                     TreeViewItem tvi = FindTreeViewItemFromObject(tvContainers.ItemContainerGenerator, subcontainer);
                     tvi.IsSelected = true;
@@ -66,17 +117,12 @@ namespace IP_Range
                 if (wcEdit.DialogResult == true)
                 {
                     container.Name = wcEdit.Name.Text;
+                    IsChanged = true;
                 }
             }
             else if (mi.Name == "RemoveContainer")
             {
-                classContainer container = tvContainers.SelectedItem as classContainer;
-                var result = windowMessage.Show("IP-Range", "Do you really wont to remove container?", this, MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.OK)
-                {
-                    var parentcollection = FindParentCollectionForContainer(Containers, container);
-                    if (parentcollection != null) parentcollection.Remove(container);
-                }
+                DeleteContainer(tvContainers.SelectedItem as classContainer);
             }
             else if (mi.Name == "CreateHost")
             {
@@ -89,6 +135,7 @@ namespace IP_Range
                         classHost host = new classHost(wh.IP_address.Text, wh.DNS_Name.Text, wh.Description.Text);
                         classContainer container = (classContainer)tvContainers.SelectedItem;
                         container.Hosts.Add(host);
+                        IsChanged = true;
                     }
                 }
             }
@@ -102,48 +149,45 @@ namespace IP_Range
                     host.IP = whEdit.IP_address.Text;
                     host.DNS_Name = whEdit.DNS_Name.Text;
                     host.Description = whEdit.Description.Text;
+                    IsChanged = true;
                 }
             }
             else if (mi.Name == "RemoveHost")
             {
-                classHost host = lvHosts.SelectedItem as classHost;
-                var result = windowMessage.Show("IP-Range", "Do you really wont to remove host?", this, MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.OK)
+                if (lvHosts.SelectedItems.Count == 1)
                 {
-                    classContainer container = tvContainers.SelectedItem as classContainer;
-                    if (container != null) container.Hosts.Remove(host);
+                    DeleteHosts(lvHosts.SelectedItem as classHost);
+                }
+                else if (lvHosts.SelectedItems.Count > 1)
+                {
+                    List<classHost> hosts = new List<classHost>();
+                    foreach (classHost item in lvHosts.SelectedItems) hosts.Add(item);
+                    DeleteHosts(null, hosts);
                 }
             }
         }
 
         //Add Main Container
-        private void btnAddContainer_Click(object sender, RoutedEventArgs e)
-        {
-            windowContainer wc = new windowContainer(this);
-            wc.ShowDialog();
-            if (wc.DialogResult == true)
-            {
-                classContainer container = new classContainer(wc.Name.Text, true);
-                Containers.Add(container);
+        //private void btnAddContainer_Click(object sender, RoutedEventArgs e)
+        //{
+        //    windowContainer wc = new windowContainer(this);
+        //    wc.ShowDialog();
+        //    if (wc.DialogResult == true)
+        //    {
+        //        classContainer container = new classContainer(wc.Name.Text, true);
+        //        Containers.Add(container);
 
-                TreeViewItem tvi = FindTreeViewItemFromObject(tvContainers.ItemContainerGenerator, container);
-                tvi.IsSelected = true;
-            }
-        }
+        //        TreeViewItem tvi = FindTreeViewItemFromObject(tvContainers.ItemContainerGenerator, container);
+        //        tvi.IsSelected = true;
+        //    }
+        //}
 
         //Remove Container From KeyDown Delete
         private void tvContainers_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
             {
-                classContainer container = tvContainers.SelectedItem as classContainer;
-                if (container == null) return;
-                var result = windowMessage.Show("IP-Range", "Do you really wont to remove container?", this, MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.OK)
-                {
-                    var parentcollection = FindParentCollectionForContainer(Containers, container);
-                    if (parentcollection != null) parentcollection.Remove(container);
-                }
+                DeleteContainer(tvContainers.SelectedItem as classContainer);
             }
         }
 
@@ -152,17 +196,15 @@ namespace IP_Range
         {
             if (e.Key == Key.Delete)
             {
-                List<classHost> hosts = new List<classHost>();
-                if (lvHosts.SelectedItems.Count == 0) return;
-                foreach (classHost item in lvHosts.SelectedItems) hosts.Add(item);
-                var result = windowMessage.Show("IP-Range", "Do you really wont to remove host?", this, MessageBoxButton.OKCancel);
-                if (result == MessageBoxResult.OK)
+                if (lvHosts.SelectedItems.Count == 1)
                 {
-                    classContainer container = tvContainers.SelectedItem as classContainer;
-                    if (container != null)
-                    {
-                        foreach (classHost item in hosts) container.Hosts.Remove(item);
-                    }
+                    DeleteHosts(lvHosts.SelectedItem as classHost);
+                }
+                else if (lvHosts.SelectedItems.Count > 1)
+                {
+                    List<classHost> hosts = new List<classHost>();
+                    foreach (classHost item in lvHosts.SelectedItems) hosts.Add(item);
+                    DeleteHosts(null, hosts);
                 }
             }
         }
@@ -175,7 +217,11 @@ namespace IP_Range
                 var parentcollection = FindParentCollectionForContainer(Containers, tvContainers.SelectedItem as classContainer);
                 if (parentcollection == null) return;
                 var i = parentcollection.IndexOf(tvContainers.SelectedItem as classContainer);
-                if (i > 0) parentcollection.Move(i, i - 1);
+                if (i > 0)
+                {
+                    parentcollection.Move(i, i - 1);
+                    IsChanged = true;
+                }
 
                 var tvi = FindTreeViewItemFromObject(((TreeView)sender).ItemContainerGenerator, ((TreeView)sender).SelectedItem);
                 if (tvi != null) tvi.BringIntoView();
@@ -185,7 +231,11 @@ namespace IP_Range
                 var parentcollection = FindParentCollectionForContainer(Containers, tvContainers.SelectedItem as classContainer);
                 if (parentcollection == null) return;
                 var i = parentcollection.IndexOf(tvContainers.SelectedItem as classContainer);
-                if (i < parentcollection.Count - 1 && i >= 0) parentcollection.Move(i, i + 1);
+                if (i < parentcollection.Count - 1 && i >= 0)
+                {
+                    parentcollection.Move(i, i + 1);
+                    IsChanged = true;
+                }
 
                 var tvi = FindTreeViewItemFromObject(((TreeView)sender).ItemContainerGenerator, ((TreeView)sender).SelectedItem);
                 if (tvi != null) tvi.BringIntoView();
@@ -200,14 +250,22 @@ namespace IP_Range
                 classContainer container = tvContainers.SelectedItem as classContainer;
                 if (container == null) return;
                 var i = container.Hosts.IndexOf(lvHosts.SelectedItem as classHost);
-                if (i > 0) container.Hosts.Move(i, i - 1);
+                if (i > 0)
+                {
+                    container.Hosts.Move(i, i - 1);
+                    IsChanged = true;
+                }
             }
             else if (e.SystemKey == Key.Down && Keyboard.Modifiers == ModifierKeys.Alt)
             {
                 classContainer container = tvContainers.SelectedItem as classContainer;
                 if (container == null) return;
                 var i = container.Hosts.IndexOf(lvHosts.SelectedItem as classHost);
-                if (i < container.Hosts.Count - 1 && i >= 0) container.Hosts.Move(i, i + 1);
+                if (i < container.Hosts.Count - 1 && i >= 0)
+                {
+                    container.Hosts.Move(i, i + 1);
+                    IsChanged = true;
+                }
             }
         }
 
@@ -280,6 +338,7 @@ namespace IP_Range
                     host.IP = whEdit.IP_address.Text;
                     host.DNS_Name = whEdit.DNS_Name.Text;
                     host.Description = whEdit.Description.Text;
+                    IsChanged = true;
                 }
             }
         }
@@ -380,6 +439,7 @@ namespace IP_Range
                     if (sourceparentcollection == objdestination.Children) return;
 
                     objdestination.Children.Add(objsource);
+                    IsChanged = true;
 
                     if (sourceparentcollection != null)
                     {
@@ -396,6 +456,7 @@ namespace IP_Range
                     if (sourceparentcollection == Containers) return;
 
                     Containers.Add(objsource);
+                    IsChanged = true;
 
                     if (sourceparentcollection != null)
                     {
@@ -438,14 +499,78 @@ namespace IP_Range
 
         #endregion
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        #region Buttons on Panel
+        private void btnNew_Click(object sender, RoutedEventArgs e)
         {
-            Serialize("");
+            if (Containers.Count > 0 && IsChanged)
+            {
+                var result = windowMessage.Show("Create a new database?\nAll changes will be lost.", this, MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    SaveFileDialog sfd = new SaveFileDialog();
+                    sfd.Filter = "xml files (*.xml)|*.xml";
+                    if (sfd.ShowDialog() == true)
+                    {
+                        File.WriteAllText(sfd.FileName, "");
+                        DatabasePath = sfd.FileName;
+
+                        Containers.Clear();
+                        Serialize(DatabasePath);
+                    }
+                }
+            }
+            else
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "xml files (*.xml)|*.xml";
+                if (sfd.ShowDialog() == true)
+                {
+                    File.WriteAllText(sfd.FileName, "");
+                    DatabasePath = sfd.FileName;
+
+                    Containers.Clear();
+                    Serialize(DatabasePath);
+                }
+            }
         }
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
-            DeSerialize("");
+            if (IsChanged)
+            {
+                var result = windowMessage.Show("Open database?\nAll changes will be lost.", this, MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.Cancel) return;
+            }
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "xml files (*.xml)|*.xml";
+            if (ofd.ShowDialog() == true)
+            {
+                DatabasePath = ofd.FileName;
+                DeSerialize(DatabasePath);
+            }
         }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (DatabasePath != "") Serialize(DatabasePath);
+        }
+        
+        private void btnSaveAs_Click(object sender, RoutedEventArgs e)
+        {
+            if (Containers.Count > 0)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "xml files (*.xml)|*.xml";
+                if (sfd.ShowDialog() == true)
+                {
+                    File.WriteAllText(sfd.FileName, "");
+                    DatabasePath = sfd.FileName;
+                    
+                    Serialize(DatabasePath);
+                }
+            }
+        }
+        #endregion
     }
 }
