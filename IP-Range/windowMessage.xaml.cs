@@ -36,7 +36,7 @@ namespace IP_Range
                     AddButton("OK", MessageBoxResult.OK, isDefault: true, isCancel: true);
                     break;
                 case MessageBoxButton.OKCancel:
-                    AddButton("OK", MessageBoxResult.OK, isDefault: false);
+                    AddButton("OK", MessageBoxResult.OK);
                     AddButton("Cancel", MessageBoxResult.Cancel, isCancel: true);
                     break;
                 case MessageBoxButton.YesNo:

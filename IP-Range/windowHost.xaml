@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:IP_Range"
         mc:Ignorable="d"
         Title="ADD NEW HOST"
-        MinHeight="400"
+        MinHeight="460"
         MinWidth="300"
         WindowStartupLocation="CenterOwner"
         WindowStyle="None"

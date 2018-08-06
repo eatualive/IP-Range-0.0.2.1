@@ -23,7 +23,7 @@
         <SolidColorBrush x:Key="brushForegroundTreeView" Color="#FF6C6C6C"/>
         <SolidColorBrush x:Key="brushForegroundTreeViewSelected" Color="WhiteSmoke"/>
         <SolidColorBrush x:Key="brushSelectedTreeView" Color="#FF378383"/>
-        <SolidColorBrush x:Key="brushBackgroundTreeViewNotSelected" Color="WhiteSmoke"/>
+        <SolidColorBrush x:Key="brushBackgroundTreeViewNotSelected" Color="#FFE4E4E4"/>
         
         <!--ListView-->
         <SolidColorBrush x:Key="brushBackgroundListView" Color="White" Opacity="0.9"/>
@@ -32,7 +32,7 @@
         <SolidColorBrush x:Key="brushForegroundListViewNotSelected" Color="Black"/>
         <SolidColorBrush x:Key="brushForegroundListViewSelected" Color="WhiteSmoke"/>
         <SolidColorBrush x:Key="brushBackgroundListViewSelected" Color="#FF378383"/>
-        <SolidColorBrush x:Key="brushBackgroundListViewNotSelected" Color="WhiteSmoke"/>
+        <SolidColorBrush x:Key="brushBackgroundListViewNotSelected" Color="#FFE4E4E4"/>
         
         <!--Window Container-->
         <SolidColorBrush x:Key="brushBackgroundWindowContainer" Color="WhiteSmoke"/>
