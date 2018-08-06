@@ -1,0 +1,161 @@
+﻿<Window x:Class="IP_Range.windowMessage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IP_Range"
+        mc:Ignorable="d"
+        Title="IP RANGE"
+        Width="350"
+        Height="180"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Loaded="Window_Loaded"
+        StateChanged="Window_StateChanged">
+    <Window.Style>
+        <Style>
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome CaptionHeight="36" ResizeBorderThickness="6" GlassFrameThickness="1"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Style>
+
+    <Border BorderBrush="{StaticResource brushBorders}" BorderThickness="1">
+        <Grid Background="{StaticResource brushBackground}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Name="Header"
+               Content="{Binding Title, RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}"
+               Foreground="{StaticResource brushForeground}"
+               HorizontalAlignment="Left"
+               Padding="10,0,0,0"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"/>
+
+            <Button Name="btnClose"
+                Width="47"
+                Height="30"
+                Click="btnClose_Click"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                WindowChrome.IsHitTestVisibleInChrome="True"
+                IsCancel="True">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFE81123"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FFE0636E"/>
+                                <Setter Property="Foreground" Value="#FF2B2B2B"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Path Data="M 0 0 L 10 10 Z M 10 0 L 0 10 Z"
+                      SnapsToDevicePixels="True"
+                      Stroke="{Binding Foreground, ElementName=btnClose}"
+                      StrokeMiterLimit="0"
+                      Stretch="Uniform"
+                      Width="10"
+                      Height="10"/>
+            </Button>
+
+            <TextBlock Name="MessageContainer"
+                   Grid.Row="1"
+                   Padding="20"
+                   Text="TEXT"
+                   TextWrapping="Wrap"
+                   Foreground="{StaticResource brushForeground}"
+                   TextAlignment="Center"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+            <StackPanel Name="ButtonContainer"
+                    Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Width" Value="100"/>
+                        <Setter Property="Height" Value="50"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Foreground" Value="{StaticResource brushForeground}"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Width="{TemplateBinding Width}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource brushForegroundButtonMouseOver}"/>
+                                <Setter Property="Background" Value="{StaticResource brushBackgroundWindowMessageButtonMouseOver}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource brushForegroundButtonMousePressed}"/>
+                                <Setter Property="Background" Value="{StaticResource brushBackgroundWindowMessageButtonPressed}"/>
+
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="FontSize"
+                                                                                            To="11"
+                                                                                            Duration="0:0:0:0.1">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <SineEase EasingMode="EaseInOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="FontSize"
+                                                                                            To="12"
+                                                                                            Duration="0:0:0:0.1">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <SineEase EasingMode="EaseInOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Resources>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

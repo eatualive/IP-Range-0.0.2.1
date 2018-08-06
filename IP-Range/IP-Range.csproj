@@ -66,6 +66,9 @@
     <Compile Include="windowHost.xaml.cs">
       <DependentUpon>windowHost.xaml</DependentUpon>
     </Compile>
+    <Compile Include="windowMessage.xaml.cs">
+      <DependentUpon>windowMessage.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -87,6 +90,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="windowHost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="windowMessage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

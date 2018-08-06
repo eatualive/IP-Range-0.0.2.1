@@ -7,7 +7,7 @@
         
         <!--Main Window-->
         <SolidColorBrush x:Key="brushBackground" Color="White"/>
-        <SolidColorBrush x:Key="brushForeground" Color="Black"/>
+        <SolidColorBrush x:Key="brushForeground" Color="#FF6C6C6C"/>
         <SolidColorBrush x:Key="brushBorders" Color="#FFC6C6C6"/>
         <SolidColorBrush x:Key="brushForegroundButtonMouseOver" Color="#FF007ACC"/>
         <SolidColorBrush x:Key="brushForegroundButtonMousePressed" Color="#FF005791"/>
@@ -42,5 +42,10 @@
         <SolidColorBrush x:Key="brushBackgroundWindowContainerButton" Color="#FF1E9FF5"/>
 
         <!--Window Host-->
+        
+        <!--Window Message-->
+        <SolidColorBrush x:Key="brushBackgroundWindowMessageButtonMouseOver" Color="WhiteSmoke"/>
+        <SolidColorBrush x:Key="brushBackgroundWindowMessageButtonPressed" Color="#FFC5C5C5"/>
+        
     </Application.Resources>
 </Application>

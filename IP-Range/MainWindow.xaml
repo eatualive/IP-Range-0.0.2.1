@@ -252,10 +252,6 @@
                                 <Setter TargetName="Bd" Property="Background" Value="{StaticResource brushBackgroundTreeViewNotSelected}"/>
                                 <Setter Property="Foreground" Value="{StaticResource brushForeground}"/>
                             </MultiTrigger>
-
-                            <!--<Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                            </Trigger>-->
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -711,6 +707,7 @@
                                                 <Grid>
                                                     <Border Width="{TemplateBinding Width}"
                                                             Height="20"
+                                                            Background="{StaticResource brushBackgroundListViewHeader}"
                                                             BorderBrush="{StaticResource brushBorders}"
                                                             BorderThickness="0,0,1,1"
                                                             Margin="-2,0,-4,0">

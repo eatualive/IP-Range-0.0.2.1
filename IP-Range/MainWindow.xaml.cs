@@ -71,7 +71,7 @@ namespace IP_Range
             else if (mi.Name == "RemoveContainer")
             {
                 classContainer container = tvContainers.SelectedItem as classContainer;
-                var result = MessageBox.Show("Are you really wont to remove container?", "", MessageBoxButton.OKCancel);
+                var result = windowMessage.Show("IP-Range", "Do you really wont to remove container?", this, MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
                     var parentcollection = FindParentCollectionForContainer(Containers, container);
@@ -107,7 +107,7 @@ namespace IP_Range
             else if (mi.Name == "RemoveHost")
             {
                 classHost host = lvHosts.SelectedItem as classHost;
-                var result = MessageBox.Show("Are you really wont to remove host?", "", MessageBoxButton.OKCancel);
+                var result = windowMessage.Show("IP-Range", "Do you really wont to remove host?", this, MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
                     classContainer container = tvContainers.SelectedItem as classContainer;
@@ -138,7 +138,7 @@ namespace IP_Range
             {
                 classContainer container = tvContainers.SelectedItem as classContainer;
                 if (container == null) return;
-                var result = MessageBox.Show("Are you really wont to remove container?", "", MessageBoxButton.OKCancel);
+                var result = windowMessage.Show("IP-Range", "Do you really wont to remove container?", this, MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
                     var parentcollection = FindParentCollectionForContainer(Containers, container);
@@ -155,7 +155,7 @@ namespace IP_Range
                 List<classHost> hosts = new List<classHost>();
                 if (lvHosts.SelectedItems.Count == 0) return;
                 foreach (classHost item in lvHosts.SelectedItems) hosts.Add(item);
-                var result = MessageBox.Show("Are you really wont to remove host?", "", MessageBoxButton.OKCancel);
+                var result = windowMessage.Show("IP-Range", "Do you really wont to remove host?", this, MessageBoxButton.OKCancel);
                 if (result == MessageBoxResult.OK)
                 {
                     classContainer container = tvContainers.SelectedItem as classContainer;
